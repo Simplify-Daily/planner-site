@@ -384,198 +384,96 @@ function nav(id){
  document.getElementById(id).classList.add('active');
 }
 
-<!-- QUESTIONNAIRE PAGE -->
-<div id="questionnairePage" style="max-width:900px;margin:40px auto;">
-  <h2 style="text-align:center;margin-bottom:24px;">Your Mental Health Check</h2>
-  <div id="questionsContainer"></div>
-  <button id="submitBtn" style="margin-top:20px;padding:12px 24px;background:#123d63;color:#fff;border:none;border-radius:14px;cursor:pointer;display:block;margin-left:auto;margin-right:auto;">See Results</button>
-</div>
-
-<!-- RESULTS PAGE -->
-<div id="resultsPage" style="max-width:900px;margin:40px auto;display:none;">
-  <h2 style="text-align:center;margin-bottom:24px;">Your Recommended Actions</h2>
-  <div id="resultsContainer" style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;"></div>
-</div>
-
-<script>
-// --------- QUESTIONS SETUP ----------
-const questions = [
-  {q:"How often do you feel sad or low?", cat:"mood", options:["Rarely","Sometimes","Often"]},
-  {q:"Do you have trouble sleeping?", cat:"sleep", options:["Never","Sometimes","Often"]},
-  {q:"Do you feel energized in the morning?", cat:"energy", options:["Always","Sometimes","Rarely"]},
-  {q:"How is your appetite?", cat:"appetite", options:["Good","Average","Low"]},
-  {q:"Do you exercise regularly?", cat:"exercise", options:["Yes","Sometimes","No"]},
-  {q:"Do you enjoy social interactions?", cat:"social", options:["Yes","Sometimes","No"]},
-  {q:"Do you feel stressed often?", cat:"stress", options:["No","Sometimes","Yes"]},
-  {q:"Do you eat fruits and vegetables daily?", cat:"nutrition", options:["Yes","Sometimes","No"]},
-  {q:"Do you feel anxious?", cat:"anxiety", options:["No","Sometimes","Yes"]},
-  {q:"Do you feel supported by friends/family?", cat:"social", options:["Yes","Sometimes","No"]},
-  {q:"Do you take breaks during work/school?", cat:"stress", options:["Always","Sometimes","Rarely"]},
-  {q:"Do you feel motivated to do daily tasks?", cat:"energy", options:["Yes","Sometimes","No"]},
-  {q:"Do you feel hopeless at times?", cat:"mood", options:["Never","Sometimes","Often"]},
-  {q:"Do you have healthy sleep routines?", cat:"sleep", options:["Yes","Sometimes","No"]},
-  {q:"Do you drink enough water?", cat:"nutrition", options:["Yes","Sometimes","No"]},
-  {q:"Do you practice mindfulness or meditation?", cat:"stress", options:["Yes","Sometimes","No"]},
-  {q:"Do you avoid unhealthy snacks?", cat:"nutrition", options:["Yes","Sometimes","No"]},
-  {q:"Do you get outside/exposure to sunlight?", cat:"exercise", options:["Yes","Sometimes","No"]},
-  {q:"Do you feel lonely?", cat:"social", options:["Never","Sometimes","Often"]},
-  {q:"Do you feel your mental health affects your work?", cat:"mood", options:["No","Sometimes","Yes"]},
-  {q:"Do you enjoy your meals?", cat:"appetite", options:["Yes","Sometimes","No"]},
-  {q:"Do you spend time on hobbies?", cat:"stress", options:["Yes","Sometimes","No"]},
-  {q:"Do you limit screen time before bed?", cat:"sleep", options:["Yes","Sometimes","No"]},
-  {q:"Do you feel physically healthy?", cat:"energy", options:["Yes","Sometimes","No"]},
-  {q:"Do you feel overwhelmed often?", cat:"stress", options:["No","Sometimes","Yes"]}
+/* QUESTIONS DATA */
+const questions=[
+{q:"How is your mood right now?",a:[["Very positive",2],["Neutral",1],["Low",0]]},
+{q:"How anxious do you feel?",a:[["Not anxious",2],["Somewhat anxious",1],["Very anxious",0]]},
+{q:"How stressed do you feel?",a:[["Calm",2],["Under pressure",1],["Overwhelmed",0]]},
+{q:"How rested do you feel?",a:[["Well rested",2],["Somewhat tired",1],["Exhausted",0]]},
+{q:"How motivated are you today?",a:[["Motivated",2],["Low motivation",1],["No motivation",0]]},
+{q:"How focused have you been?",a:[["Focused",2],["Distracted",1],["Unable to focus",0]]},
+{q:"How connected do you feel?",a:[["Connected",2],["Somewhat isolated",1],["Very isolated",0]]},
+{q:"How tense does your body feel?",a:[["Relaxed",2],["Tense",1],["Very tense",0]]},
+{q:"How hopeful do you feel?",a:[["Hopeful",2],["Unsure",1],["Hopeless",0]]},
+{q:"How emotionally drained are you?",a:[["Not drained",2],["Tired",1],["Burnt out",0]]},
+{q:"How confident do you feel?",a:[["Confident",2],["Unsure",1],["Insecure",0]]},
+{q:"How lonely do you feel?",a:[["Not lonely",2],["Occasionally",1],["Very lonely",0]]},
+{q:"How irritable do you feel?",a:[["Calm",2],["Easily annoyed",1],["Very irritable",0]]},
+{q:"How balanced do you feel emotionally?",a:[["Balanced",2],["Unsteady",1],["Out of control",0]]},
+{q:"How satisfied are you with today?",a:[["Satisfied",2],["Neutral",1],["Dissatisfied",0]]},
+{q:"How safe do you feel emotionally?",a:[["Safe",2],["Uncertain",1],["Unsafe",0]]},
+{q:"How supported do you feel?",a:[["Supported",2],["Somewhat",1],["Unsupported",0]]},
+{q:"How mentally tired are you?",a:[["Alert",2],["Tired",1],["Burnt out",0]]},
+{q:"How positive were your thoughts?",a:[["Mostly positive",2],["Mixed",1],["Negative",0]]},
+{q:"How calm do you feel inside?",a:[["Calm",2],["Restless",1],["On edge",0]]},
+{q:"How in control do you feel?",a:[["In control",2],["Some control",1],["No control",0]]},
+{q:"How often did worries interrupt you?",a:[["Rarely",2],["Sometimes",1],["Constantly",0]]},
+{q:"How resilient do you feel?",a:[["Resilient",2],["Struggling",1],["Broken",0]]},
+{q:"How comfortable are you with yourself?",a:[["Comfortable",2],["Unsure",1],["Uncomfortable",0]]},
+{q:"How emotionally stable do you feel?",a:[["Stable",2],["Up and down",1],["Unstable",0]]}
 ];
 
-const answers = {}; // store category counts
+let qi=0,score=0;
 
-const container = document.getElementById('questionsContainer');
-
-// Render questions
-questions.forEach((q, idx) => {
-  const qDiv = document.createElement('div');
-  qDiv.style.marginBottom = '16px';
-  
-  const qText = document.createElement('p');
-  qText.innerText = (idx+1) + ". " + q.q;
-  qDiv.appendChild(qText);
-  
-  q.options.forEach(opt => {
-    const label = document.createElement('label');
-    label.style.display = 'block';
-    const radio = document.createElement('input');
-    radio.type = 'radio';
-    radio.name = 'q'+idx;
-    radio.value = opt;
-    radio.addEventListener('change', () => {
-      answers[q.cat] = answers[q.cat] || {};
-      answers[q.cat][opt] = (answers[q.cat][opt] || 0) + 1;
-    });
-    label.appendChild(radio);
-    label.appendChild(document.createTextNode(' ' + opt));
-    qDiv.appendChild(label);
-  });
-  
-  container.appendChild(qDiv);
-});
-
-// --------- RESULTS SETUP ----------
-const resultsOptions = [
-  {
-    id:'talk',
-    title:'Talk to Someone',
-    desc:'Get professional help or someone to talk to right now.',
-    color:'#f6faff',
-    links:[
-      {text:'Samaritans (UK)', href:'https://www.samaritans.org/'},
-      {text:'US Helplines', href:'https://www.mentalhealth.gov/get-help/immediate-help'},
-      {text:'Crisis Text Line', href:'https://www.crisistextline.org/'}
-    ],
-    condition: ans => (ans.mood && (ans.mood['Often']||0)>0) || (ans.stress && (ans.stress['Yes']||0)>0)
-  },
-  {
-    id:'eat',
-    title:'Eat Better',
-    desc:'Boost your mental health with nutritious meals.',
-    color:'#fff3e0',
-    links:[
-      {text:'Healthy Meal Ideas', href:'https://www.eatright.org/food/planning-meals'},
-      {text:'Foods for Mental Health', href:'https://www.healthline.com/nutrition/mental-health-foods'},
-      {text:'Recipes Collection', href:'https://www.bbcgoodfood.com/recipes/collection/mental-health'}
-    ],
-    condition: ans => (ans.appetite && (ans.appetite['Low']||0)>0) || (ans.nutrition && (ans.nutrition['No']||0)>0)
-  },
-  {
-    id:'move',
-    title:'Move Your Body',
-    desc:'Exercise to lift your mood and feel more energized.',
-    color:'#e0f7fa',
-    links:[
-      {text:'Workout Videos', href:'https://www.fitnessblender.com/'},
-      {text:'NHS Exercise Guide', href:'https://www.nhs.uk/live-well/exercise/'},
-      {text:'Beginner Running Tips', href:'https://www.runtastic.com/blog/en/'}
-    ],
-    condition: ans => (ans.energy && (ans.energy['Rarely']||0)>0) || (ans.exercise && (ans.exercise['No']||0)>0)
-  },
-  {
-    id:'sleep',
-    title:'Improve Sleep',
-    desc:'Better sleep helps mental health and energy.',
-    color:'#ede7f6',
-    links:[
-      {text:'Sleep Hygiene Tips', href:'https://www.sleepfoundation.org/sleep-hygiene'},
-      {text:'Relaxation Techniques', href:'https://www.headspace.com/meditation/relax'},
-      {text:'Sleep Apps', href:'https://www.nhs.uk/mental-health/self-help/tips-and-support/sleep/'}
-    ],
-    condition: ans => (ans.sleep && (ans.sleep['Sometimes']||0)>0) || (ans.energy && (ans.energy['Rarely']||0)>0)
-  },
-  {
-    id:'social',
-    title:'Connect Socially',
-    desc:'Reach out to friends or family to feel supported.',
-    color:'#ffe0b2',
-    links:[
-      {text:'Find Local Groups', href:'https://www.meetup.com/'},
-      {text:'Volunteer Opportunities', href:'https://www.volunteering.org.uk/'},
-      {text:'Online Support Communities', href:'https://www.reddit.com/r/mentalhealth/'}
-    ],
-    condition: ans => (ans.social && (ans.social['No']||0)>0)
-  }
-];
-
-// Show results page dynamically
-function showResults() {
-  document.getElementById('questionnairePage').style.display = 'none';
-  const resultsPage = document.getElementById('resultsPage');
-  resultsPage.style.display = 'block';
-  const container = document.getElementById('resultsContainer');
-  container.innerHTML = '';
-
-  const selected = resultsOptions.filter(opt => opt.condition(answers)).slice(0,3);
-
-  selected.forEach(opt => {
-    const box = document.createElement('div');
-    box.style.flex = '1 1 30%';
-    box.style.background = opt.color;
-    box.style.borderRadius = '20px';
-    box.style.padding = '20px';
-    box.style.boxShadow = '0 8px 20px rgba(0,0,0,.1)';
-    box.style.textAlign = 'center';
-
-    const title = document.createElement('h3');
-    title.innerText = opt.title;
-
-    const desc = document.createElement('p');
-    desc.innerText = opt.desc;
-
-    const ul = document.createElement('ul');
-    ul.style.textAlign = 'left';
-    ul.style.marginTop = '12px';
-    opt.links.forEach(link => {
-      const li = document.createElement('li');
-      const a = document.createElement('a');
-      a.href = link.href;
-      a.target = '_blank';
-      a.innerText = link.text;
-      li.appendChild(a);
-      ul.appendChild(li);
-    });
-
-    box.appendChild(title);
-    box.appendChild(desc);
-    box.appendChild(ul);
-    container.appendChild(box);
-  });
+/* QUESTION FLOW */
+function startQuestions(){
+ qi=0;
+ score=0;
+ nav('questions');
+ renderQ();
+}
+function renderQ(){
+ if(qi>=25){
+   nav('loading');
+   setTimeout(showResults,1600);
+   return;
+ }
+ qText.innerText=questions[qi].q;
+ answers.innerHTML='';
+ questions[qi].a.forEach(o=>{
+   const b=document.createElement('button');
+   b.innerText=o[0];
+   b.onclick=()=>{
+     score+=o[1];
+     qi++;
+     renderQ();
+   };
+   answers.appendChild(b);
+ });
 }
 
-// Hook submit button
-document.getElementById('submitBtn').addEventListener('click', showResults);
+/* RESULTS */
+function showResults(){
+ nav('results');
+ resultsBox.innerHTML='';
+ let supports=[];
+ if(score>=40){
+   supports=[
+    ["Maintain routines","Keep consistent sleep, meals, and movement."],
+    ["Mindfulness","Continue grounding practices daily."],
+    ["Positive reflection","Journal what’s going well."]
+   ];
+ }else if(score>=25){
+   supports=[
+    ["Take breaks","Short pauses reduce stress buildup."],
+    ["Talk it out","Share feelings with someone trusted."],
+    ["Gentle movement","Stretching or walks can help."]
+   ];
+ }else{
+   supports=[
+    ["Extra care","Prioritise rest and self-kindness."],
+    ["Lower demands","Reduce pressure where possible."],
+    ["Seek support","Professional help can make a difference."]
+   ];
+ }
+ supports.forEach(s=>{
+   const d=document.createElement('div');
+   d.className='result-box';
+   d.innerHTML=`<h3>${s[0]}</h3><p>${s[1]}</p>`;
+   resultsBox.appendChild(d);
+ });
+}
 </script>
-
 
 </body>
 </html>
-
-
-
-
