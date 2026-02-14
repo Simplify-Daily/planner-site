@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Simple Daily</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ---------------- RESET ---------------- */
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Lexend',sans-serif}
+
+/* ---------------- COLORS ---------------- */
+:root{
+ --dark:#123d63;
+ --mid:#1f6fb2;
+ --light:#e9f6ff;
+ --card:#ffffff;
+}
+
+/* ---------------- BODY ---------------- */
+body{
+ background:var(--light);
+ height:100vh;
+ overflow:hidden;
+}
+
+/* ---------------- BACKGROUND DOTS ---------------- */
+#bg{
+ position:fixed;
+ inset:0;
+ z-index:0;
+}
+.dot{
+ position:absolute;
+ background:var(--dark);
+ border-radius:50%;
+ opacity:.18;
+ animation:float 22s ease-in-out infinite;
+}
+@keyframes float{
+ 0%{transform:translateY(0)}
+ 50%{transform:translateY(10px)}
+ 100%{transform:translateY(0)}
+}
+
+/* ---------------- TOP BAR ---------------- */
+.topbar{
+ height:64px;
+ background:var(--dark);
+ color:#fff;
+ display:flex;
+ align-items:center;
+ padding:0 18px;
+ font-size:22px;
+ font-weight:700;
+ position:relative;
+ z-index:10;
+}
+.burger{
+ font-size:28px;
+ margin-right:14px;
+ cursor:pointer;
+}
+
+/* ---------------- SIDEBAR ---------------- */
+.sidebar{
+ position:fixed;
+ left:-340px;
+ top:0;
+ width:320px;
+ height:100%;
+ background:#fff;
+ border-right:4px solid var(--dark);
+ z-index:30;
+ padding:20px;
+ transition:.4s;
+ overflow-y:auto;
+}
+.sidebar.active{left:0}
+.sidebar h2{margin-bottom:12px}
+.sidebar img{
+ width:120px;
+ height:120px;
+ border-radius:50%;
+ display:block;
+ margin:10px auto;
+ object-fit:cover;
+ border:4px solid var(--dark);
+}
+.sidebar input,
+.sidebar textarea{
+ width:100%;
+ padding:10px;
+ margin-top:10px;
+ border-radius:14px;
+ border:1px solid #ccc;
+}
+.sidebar button{
+ width:100%;
+ margin-top:12px;
+ padding:12px;
+ border:none;
+ border-radius:16px;
+ background:var(--dark);
+ color:#fff;
+ font-weight:700;
+ cursor:pointer;
+}
+
+/* ---------------- SCREENS ---------------- */
+.screen{
+ position:absolute;
+ top:64px;
+ left:0;
+ width:100%;
+ height:calc(100vh - 164px);
+ padding:28px;
+ display:none;
+ z-index:5;
+}
+.screen.active{display:block}
+
+/* ---------------- CARD ---------------- */
+.card-wrap{
+ max-width:760px;
+ margin:auto;
+}
+.card{
+ background:var(--card);
+ border-radius:30px;
+ padding:44px 36px;
+ box-shadow:0 18px 40px rgba(0,0,0,.15);
+ position:relative;
+ overflow:hidden;
+}
+
+/* ---------------- BLOBS INSIDE CARDS ---------------- */
+.blob{
+ position:absolute;
+ background:var(--dark);
+ opacity:.14;
+}
+.blob.tl{
+ width:160px;
+ height:140px;
+ top:-30px;
+ left:-40px;
+ border-radius:70% 30% 60% 40%;
+}
+.blob.tr{
+ width:120px;
+ height:160px;
+ top:-40px;
+ right:-30px;
+ border-radius:40% 60% 30% 70%;
+}
+.blob.bl{
+ width:140px;
+ height:120px;
+ bottom:-30px;
+ left:-30px;
+ border-radius:60% 40% 70% 30%;
+}
+.blob.br{
+ width:180px;
+ height:160px;
+ bottom:-40px;
+ right:-40px;
+ border-radius:30% 70% 40% 60%;
+}
+
+/* ---------------- BUTTONS ---------------- */
+button.main{
+ margin-top:22px;
+ padding:16px;
+ width:100%;
+ border:none;
+ border-radius:18px;
+ background:var(--mid);
+ color:#fff;
+ font-size:16px;
+ font-weight:700;
+ cursor:pointer;
+}
+.answers button{
+ width:100%;
+ padding:14px;
+ margin-top:14px;
+ border:none;
+ border-radius:18px;
+ background:var(--mid);
+ color:#fff;
+ font-weight:600;
+ cursor:pointer;
+}
+
+/* ---------------- BOTTOM BAR ---------------- */
+.bottom{
+ position:fixed;
+ bottom:0;
+ width:100%;
+ height:110px;
+ z-index:20;
+}
+.bottom-bg{
+ position:absolute;
+ bottom:0;
+ width:100%;
+ height:92px;
+ background:#fff;
+ border-radius:56px 56px 0 0;
+ border:4px solid var(--dark);
+}
+.carousel{
+ max-width:640px;
+ margin:auto;
+ height:92px;
+ position:relative;
+}
+.carousel button{
+ background:none;
+ border:none;
+ cursor:pointer;
+ position:absolute;
+ bottom:2px;
+}
+.icon{
+ font-size:40px;
+ color:var(--dark);
+}
+.left{left:14%}
+.center{left:50%;transform:translateX(-50%)}
+.right{right:14%}
+
+/* ---------------- RESULTS ---------------- */
+.results-row{
+ display:flex;
+ gap:22px;
+ flex-wrap:wrap;
+ margin-top:18px;
+}
+.result-box{
+ flex:1;
+ min-width:240px;
+ background:#fff;
+ border-radius:26px;
+ padding:30px;
+ box-shadow:0 14px 32px rgba(0,0,0,.15);
+}
+.result-box h3{margin-bottom:10px}
+
+/* ---------------- TEXT ---------------- */
+h1,h2{margin-bottom:14px}
+p{line-height:1.6;margin-bottom:10px}
+
+/* ---------------- TRANSITIONS ---------------- */
+.screen,
+.card,
+button{
+ transition:.35s ease;
+}
+</style>
+</head>
+
+<body>
+
+<div id="bg"></div>
+
+<div class="sidebar" id="sidebar">
+<h2>Profile</h2>
+<img id="pfp" src="https://via.placeholder.com/120">
+<input type="file" accept="image/*" onchange="loadPFP(event)">
+<input id="name" placeholder="Name">
+<input id="age" placeholder="Age">
+<textarea id="problems" placeholder="Existing problems"></textarea>
+<button onclick="saveProfile()">Save Profile</button>
+<button onclick="toggleSidebar()">Close</button>
+</div>
+
+<div class="topbar">
+<span class="burger" onclick="toggleSidebar()">☰</span>
+Simple Daily
+</div>
+
+<!-- HOME -->
+<div id="home" class="screen active">
+<div class="card-wrap">
+<div class="card">
+<div class="blob tl"></div><div class="blob tr"></div><div class="blob bl"></div><div class="blob br"></div>
+<h1>Welcome to Simple Daily</h1>
+<p>This is your calm space to check in with yourself.</p>
+<p>Answer a short mental health check-in and receive tailored support based on how you’re feeling today.</p>
+<p>Nothing here is judged. Everything here is private.</p>
+<button class="main" onclick="startQuestions()">Go to Questionnaire</button>
+</div>
+</div>
+</div>
+
+<!-- QUESTIONS -->
+<div id="questions" class="screen">
+<div class="card-wrap">
+<div class="card">
+<div class="blob tl"></div><div class="blob tr"></div><div class="blob bl"></div><div class="blob br"></div>
+<h2 id="qText"></h2>
+<div class="answers" id="answers"></div>
+</div>
+</div>
+</div>
+
+<!-- LOADING -->
+<div id="loading" class="screen">
+<div class="card-wrap">
+<div class="card">
+<div class="blob tl"></div><div class="blob tr"></div><div class="blob bl"></div><div class="blob br"></div>
+<h2>Generating your support…</h2>
+<p>Please take a moment.</p>
+</div>
+</div>
+</div>
+
+<!-- RESULTS -->
+<div id="results" class="screen">
+<div class="card-wrap">
+<div class="card">
+<div class="blob tl"></div><div class="blob tr"></div><div class="blob bl"></div><div class="blob br"></div>
+<h2>Support For You</h2>
+<div class="results-row" id="resultsBox"></div>
+</div>
+</div>
+</div>
+
+<!-- PLANNER -->
+
+
+<!-- BOTTOM BAR -->
+<div class="bottom">
+<div class="bottom-bg"></div>
+<div class="carousel">
+<button class="left" onclick="nav('planner')"><div class="icon">📅</div></button>
+<button class="center" onclick="nav('home')"><div class="icon">🏠</div></button>
+<button class="right" onclick="nav('questions')"><div class="icon">❓</div></button>
+</div>
+</div>
+
+<script>
+/* BACKGROUND DOTS */
+const bg=document.getElementById('bg');
+for(let i=0;i<520;i++){
+ const d=document.createElement('div');
+ d.className='dot';
+ const s=Math.random()*10+3;
+ d.style.width=d.style.height=s+'px';
+ d.style.top=Math.random()*98+'%';
+ d.style.left=Math.random()*98+'%';
+ d.style.animationDuration=18+Math.random()*20+'s';
+ bg.appendChild(d);
+}
+
+/* SIDEBAR */
+function toggleSidebar(){sidebar.classList.toggle('active')}
+function loadPFP(e){
+ const r=new FileReader();
+ r.onload=()=>pfp.src=r.result;
+ r.readAsDataURL(e.target.files[0]);
+}
+function saveProfile(){
+ localStorage.name=name.value;
+ localStorage.age=age.value;
+ localStorage.problems=problems.value;
+ localStorage.pfp=pfp.src;
+}
+window.onload=()=>{
+ if(localStorage.pfp)pfp.src=localStorage.pfp;
+ if(localStorage.name)name.value=localStorage.name;
+ if(localStorage.age)age.value=localStorage.age;
+ if(localStorage.problems)problems.value=localStorage.problems;
+}
+
+/* NAVIGATION */
+function nav(id){
+ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+}
+
+/* QUESTIONS DATA */
+const questions=[
+{q:"How is your mood right now?",a:[["Very positive",2],["Neutral",1],["Low",0]]},
+{q:"How anxious do you feel?",a:[["Not anxious",2],["Somewhat anxious",1],["Very anxious",0]]},
+{q:"How stressed do you feel?",a:[["Calm",2],["Under pressure",1],["Overwhelmed",0]]},
+{q:"How rested do you feel?",a:[["Well rested",2],["Somewhat tired",1],["Exhausted",0]]},
+{q:"How motivated are you today?",a:[["Motivated",2],["Low motivation",1],["No motivation",0]]},
+{q:"How focused have you been?",a:[["Focused",2],["Distracted",1],["Unable to focus",0]]},
+{q:"How connected do you feel?",a:[["Connected",2],["Somewhat isolated",1],["Very isolated",0]]},
+{q:"How tense does your body feel?",a:[["Relaxed",2],["Tense",1],["Very tense",0]]},
+{q:"How hopeful do you feel?",a:[["Hopeful",2],["Unsure",1],["Hopeless",0]]},
+{q:"How emotionally drained are you?",a:[["Not drained",2],["Tired",1],["Burnt out",0]]},
+{q:"How confident do you feel?",a:[["Confident",2],["Unsure",1],["Insecure",0]]},
+{q:"How lonely do you feel?",a:[["Not lonely",2],["Occasionally",1],["Very lonely",0]]},
+{q:"How irritable do you feel?",a:[["Calm",2],["Easily annoyed",1],["Very irritable",0]]},
+{q:"How balanced do you feel emotionally?",a:[["Balanced",2],["Unsteady",1],["Out of control",0]]},
+{q:"How satisfied are you with today?",a:[["Satisfied",2],["Neutral",1],["Dissatisfied",0]]},
+{q:"How safe do you feel emotionally?",a:[["Safe",2],["Uncertain",1],["Unsafe",0]]},
+{q:"How supported do you feel?",a:[["Supported",2],["Somewhat",1],["Unsupported",0]]},
+{q:"How mentally tired are you?",a:[["Alert",2],["Tired",1],["Burnt out",0]]},
+{q:"How positive were your thoughts?",a:[["Mostly positive",2],["Mixed",1],["Negative",0]]},
+{q:"How calm do you feel inside?",a:[["Calm",2],["Restless",1],["On edge",0]]},
+{q:"How in control do you feel?",a:[["In control",2],["Some control",1],["No control",0]]},
+{q:"How often did worries interrupt you?",a:[["Rarely",2],["Sometimes",1],["Constantly",0]]},
+{q:"How resilient do you feel?",a:[["Resilient",2],["Struggling",1],["Broken",0]]},
+{q:"How comfortable are you with yourself?",a:[["Comfortable",2],["Unsure",1],["Uncomfortable",0]]},
+{q:"How emotionally stable do you feel?",a:[["Stable",2],["Up and down",1],["Unstable",0]]}
+];
+
+let qi=0,score=0;
+
+/* QUESTION FLOW */
+function startQuestions(){
+ qi=0;
+ score=0;
+ nav('questions');
+ renderQ();
+}
+function renderQ(){
+ if(qi>=25){
+   nav('loading');
+   setTimeout(showResults,1600);
+   return;
+ }
+ qText.innerText=questions[qi].q;
+ answers.innerHTML='';
+ questions[qi].a.forEach(o=>{
+   const b=document.createElement('button');
+   b.innerText=o[0];
+   b.onclick=()=>{
+     score+=o[1];
+     qi++;
+     renderQ();
+   };
+   answers.appendChild(b);
+ });
+}
+
+/* RESULTS */
+function showResults(){
+ nav('results');
+ resultsBox.innerHTML='';
+ let supports=[];
+ if(score>=40){
+   supports=[
+    ["Maintain routines","Keep consistent sleep, meals, and movement."],
+    ["Mindfulness","Continue grounding practices daily."],
+    ["Positive reflection","Journal what’s going well."]
+   ];
+ }else if(score>=25){
+   supports=[
+    ["Take breaks","Short pauses reduce stress buildup."],
+    ["Talk it out","Share feelings with someone trusted."],
+    ["Gentle movement","Stretching or walks can help."]
+   ];
+ }else{
+   supports=[
+    ["Extra care","Prioritise rest and self-kindness."],
+    ["Lower demands","Reduce pressure where possible."],
+    ["Seek support","Professional help can make a difference."]
+   ];
+ }
+ supports.forEach(s=>{
+   const d=document.createElement('div');
+   d.className='result-box';
+   d.innerHTML=`<h3>${s[0]}</h3><p>${s[1]}</p>`;
+   resultsBox.appendChild(d);
+ });
+}
+</script>
+
+</body>
+</html>
+
+
+
