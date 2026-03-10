@@ -36,9 +36,9 @@ body{
  animation:float 22s ease-in-out infinite;
 }
 @keyframes float{
- 0%{transform:translateY(0)}
- 50%{transform:translateY(10px)}
- 100%{transform:translateY(0)}
+0%{transform:translateY(0)}
+50%{transform:translateY(10px)}
+100%{transform:translateY(0)}
 }
 
 .topbar{
@@ -50,7 +50,6 @@ body{
  padding:0 18px;
  font-size:22px;
  font-weight:700;
- position:relative;
  z-index:10;
 }
 
@@ -122,6 +121,28 @@ button.main{
  border:1px solid #ccc;
 }
 
+/* RESULTS */
+.results-row{
+ display:flex;
+ gap:22px;
+ flex-wrap:wrap;
+ margin-top:18px;
+}
+
+.result-box{
+ flex:1;
+ min-width:240px;
+ background:#fff;
+ border-radius:26px;
+ padding:30px;
+ box-shadow:0 14px 32px rgba(0,0,0,.15);
+}
+
+h1,h2{margin-bottom:14px}
+p{line-height:1.6;margin-bottom:10px}
+
+/* BOTTOM BAR */
+
 .bottom{
  position:fixed;
  bottom:0;
@@ -129,6 +150,7 @@ button.main{
  height:110px;
  z-index:20;
 }
+
 .bottom-bg{
  position:absolute;
  bottom:0;
@@ -163,24 +185,6 @@ button.main{
 .center{left:50%;transform:translateX(-50%)}
 .right{right:14%}
 
-.results-row{
- display:flex;
- gap:22px;
- flex-wrap:wrap;
- margin-top:18px;
-}
-
-.result-box{
- flex:1;
- min-width:240px;
- background:#fff;
- border-radius:26px;
- padding:30px;
- box-shadow:0 14px 32px rgba(0,0,0,.15);
-}
-
-h1,h2{margin-bottom:14px}
-p{line-height:1.6;margin-bottom:10px}
 </style>
 </head>
 
@@ -196,13 +200,15 @@ Simple Daily
 <div id="home" class="screen active">
 <div class="card-wrap">
 <div class="card">
-<div class="blob tl"></div><div class="blob tr"></div><div class="blob bl"></div><div class="blob br"></div>
+
+<div class="blob tl"></div><div class="blob tr"></div>
+<div class="blob bl"></div><div class="blob br"></div>
 
 <h1>Welcome to Simple Daily</h1>
 <p>This is your calm space to check in with yourself.</p>
 <p>Answer a short mental health check-in and receive tailored support based on how you’re feeling today.</p>
 
-<button class="main" onclick="startQuestions()">Start Questionnaire</button>
+<button class="main" onclick="startQuestions()">Go to Questionnaire</button>
 
 </div>
 </div>
@@ -213,7 +219,8 @@ Simple Daily
 <div class="card-wrap">
 <div class="card">
 
-<div class="blob tl"></div><div class="blob tr"></div><div class="blob bl"></div><div class="blob br"></div>
+<div class="blob tl"></div><div class="blob tr"></div>
+<div class="blob bl"></div><div class="blob br"></div>
 
 <h2 id="qText"></h2>
 <div class="answers" id="answers"></div>
@@ -238,18 +245,42 @@ Simple Daily
 <div class="card">
 
 <h2>Support For You</h2>
-
 <div class="results-row" id="resultsBox"></div>
 
 </div>
 </div>
 </div>
 
-<!-- NAV -->
+<!-- PLANNER -->
+<div id="planner" class="screen">
+<div class="card-wrap">
+<div class="card">
+
+<h2>Day Planner</h2>
+<p>This is where daily planning tools can go.</p>
+
+</div>
+</div>
+</div>
+
+<!-- BOTTOM NAV -->
 <div class="bottom">
 <div class="bottom-bg"></div>
+
 <div class="carousel">
-<button class="center" onclick="nav('home')"><div class="icon">🏠</div></button>
+
+<button class="left" onclick="nav('planner')">
+<div class="icon">📅</div>
+</button>
+
+<button class="center" onclick="nav('home')">
+<div class="icon">🏠</div>
+</button>
+
+<button class="right" onclick="startQuestions()">
+<div class="icon">❓</div>
+</button>
+
 </div>
 </div>
 
@@ -294,7 +325,7 @@ const questions=[
 
 {q:"What is your age?",type:"input",field:"age"},
 {q:"What is your gender?",type:"select",field:"gender",a:["Male","Female","Non-binary","Prefer not to say"]},
-{q:"Do you have a disability?",type:"select",field:"disability",a:["No","Physical","Learning","Mental health","Prefer not to say"]},
+{q:"Do you have a disability?",type:"select",field:"disability",a:["No","Physical disability","Learning disability","Mental health condition","Prefer not to say"]},
 
 {q:"How is your mood right now?",a:[["Very positive",2],["Neutral",1],["Low",0]]},
 {q:"How anxious do you feel?",a:[["Not anxious",2],["Somewhat anxious",1],["Very anxious",0]]},
@@ -333,72 +364,72 @@ function startQuestions(){
  renderQ();
 }
 
-/* RENDER */
+/* RENDER QUESTIONS */
 
 function renderQ(){
 
  if(qi>=questions.length){
-  nav('loading');
-  setTimeout(showResults,1500);
-  return;
+ nav('loading');
+ setTimeout(showResults,1500);
+ return;
  }
 
  const q=questions[qi];
+
  qText.innerText=q.q;
  answers.innerHTML='';
 
  if(q.type==="input"){
 
-  const input=document.createElement("input");
-  input.type="number";
-  input.placeholder="Enter age";
+ const input=document.createElement("input");
+ input.type="number";
+ input.placeholder="Enter age";
 
-  const btn=document.createElement("button");
-  btn.className="main";
-  btn.innerText="Continue";
+ const btn=document.createElement("button");
+ btn.className="main";
+ btn.innerText="Continue";
 
-  btn.onclick=()=>{
-   userData[q.field]=input.value;
-   qi++;
-   renderQ();
-  }
+ btn.onclick=()=>{
+ userData[q.field]=input.value;
+ qi++;
+ renderQ();
+ }
 
-  answers.appendChild(input);
-  answers.appendChild(btn);
-
+ answers.appendChild(input);
+ answers.appendChild(btn);
  }
 
  else if(q.type==="select"){
 
-  q.a.forEach(option=>{
-   const b=document.createElement("button");
-   b.innerText=option;
+ q.a.forEach(option=>{
+ const b=document.createElement("button");
+ b.innerText=option;
 
-   b.onclick=()=>{
-    userData[q.field]=option;
-    qi++;
-    renderQ();
-   }
+ b.onclick=()=>{
+ userData[q.field]=option;
+ qi++;
+ renderQ();
+ }
 
-   answers.appendChild(b);
-  });
+ answers.appendChild(b);
+ });
 
  }
 
  else{
 
-  q.a.forEach(o=>{
-   const b=document.createElement("button");
-   b.innerText=o[0];
+ q.a.forEach(o=>{
+ const b=document.createElement("button");
+ b.innerText=o[0];
 
-   b.onclick=()=>{
-    score+=o[1];
-    qi++;
-    renderQ();
-   }
+ b.onclick=()=>{
+ score+=o[1];
+ qi++;
+ renderQ();
+ }
 
-   answers.appendChild(b);
-  });
+ answers.appendChild(b);
+ });
 
  }
 
@@ -409,11 +440,11 @@ function renderQ(){
 function saveResearchData(){
 
  const data={
-  age:userData.age,
-  gender:userData.gender,
-  disability:userData.disability,
-  score:score,
-  timestamp:new Date()
+ age:userData.age,
+ gender:userData.gender,
+ disability:userData.disability,
+ score:score,
+ timestamp:new Date()
  };
 
  console.log("Research Data:",data);
