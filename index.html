@@ -4,187 +4,37 @@
 <meta charset="UTF-8">
 <title>Simple Daily</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Lexend',sans-serif}
-
-:root{
- --dark:#123d63;
- --mid:#1f6fb2;
- --light:#e9f6ff;
- --card:#ffffff;
-}
-
-body{
- background:var(--light);
- height:100vh;
- overflow:hidden;
-}
-
-#bg{
- position:fixed;
- inset:0;
- z-index:0;
-}
-.dot{
- position:absolute;
- background:var(--dark);
- border-radius:50%;
- opacity:.18;
- animation:float 22s ease-in-out infinite;
-}
-@keyframes float{
-0%{transform:translateY(0)}
-50%{transform:translateY(10px)}
-100%{transform:translateY(0)}
-}
-
-.topbar{
- height:64px;
- background:var(--dark);
- color:#fff;
- display:flex;
- align-items:center;
- padding:0 18px;
- font-size:22px;
- font-weight:700;
- z-index:10;
-}
-
-.screen{
- position:absolute;
- top:64px;
- left:0;
- width:100%;
- height:calc(100vh - 164px);
- padding:28px;
- display:none;
- z-index:5;
-}
+:root{--dark:#123d63;--mid:#1f6fb2;--light:#e9f6ff;--card:#ffffff;}
+body{background:var(--light);height:100vh;overflow:hidden;}
+#bg{position:fixed;inset:0;z-index:0;}
+.dot{position:absolute;background:var(--dark);border-radius:50%;opacity:.18;animation:float 22s ease-in-out infinite;}
+@keyframes float{0%{transform:translateY(0)}50%{transform:translateY(10px)}100%{transform:translateY(0)}}
+.topbar{height:64px;background:var(--dark);color:#fff;display:flex;align-items:center;padding:0 18px;font-size:22px;font-weight:700;z-index:10;}
+.screen{position:absolute;top:64px;left:0;width:100%;height:calc(100vh - 164px);padding:28px;display:none;z-index:5;}
 .screen.active{display:block}
-
-.card-wrap{
- max-width:760px;
- margin:auto;
-}
-.card{
- background:var(--card);
- border-radius:30px;
- padding:44px 36px;
- box-shadow:0 18px 40px rgba(0,0,0,.15);
- position:relative;
- overflow:hidden;
-}
-
-.blob{
- position:absolute;
- background:var(--dark);
- opacity:.14;
-}
+.card-wrap{max-width:760px;margin:auto;}
+.card{background:var(--card);border-radius:30px;padding:44px 36px;box-shadow:0 18px 40px rgba(0,0,0,.15);position:relative;overflow:hidden;}
+.blob{position:absolute;background:var(--dark);opacity:.14;}
 .blob.tl{width:160px;height:140px;top:-30px;left:-40px;border-radius:70% 30% 60% 40%}
 .blob.tr{width:120px;height:160px;top:-40px;right:-30px;border-radius:40% 60% 30% 70%}
 .blob.bl{width:140px;height:120px;bottom:-30px;left:-30px;border-radius:60% 40% 70% 30%}
 .blob.br{width:180px;height:160px;bottom:-40px;right:-40px;border-radius:30% 70% 40% 60%}
-
-button.main{
- margin-top:22px;
- padding:16px;
- width:100%;
- border:none;
- border-radius:18px;
- background:var(--mid);
- color:#fff;
- font-size:16px;
- font-weight:700;
- cursor:pointer;
-}
-
-.answers button{
- width:100%;
- padding:14px;
- margin-top:14px;
- border:none;
- border-radius:18px;
- background:var(--mid);
- color:#fff;
- font-weight:600;
- cursor:pointer;
-}
-
-.answers input{
- width:100%;
- padding:14px;
- margin-top:14px;
- border-radius:18px;
- border:1px solid #ccc;
-}
-
-/* RESULTS */
-.results-row{
- display:flex;
- gap:22px;
- flex-wrap:wrap;
- margin-top:18px;
-}
-
-.result-box{
- flex:1;
- min-width:240px;
- background:#fff;
- border-radius:26px;
- padding:30px;
- box-shadow:0 14px 32px rgba(0,0,0,.15);
-}
-
-h1,h2{margin-bottom:14px}
-p{line-height:1.6;margin-bottom:10px}
-
-/* BOTTOM BAR */
-
-.bottom{
- position:fixed;
- bottom:0;
- width:100%;
- height:110px;
- z-index:20;
-}
-
-.bottom-bg{
- position:absolute;
- bottom:0;
- width:100%;
- height:92px;
- background:#fff;
- border-radius:56px 56px 0 0;
- border:4px solid var(--dark);
-}
-
-.carousel{
- max-width:640px;
- margin:auto;
- height:92px;
- position:relative;
-}
-
-.carousel button{
- background:none;
- border:none;
- cursor:pointer;
- position:absolute;
- bottom:2px;
-}
-
-.icon{
- font-size:40px;
- color:var(--dark);
-}
-
-.left{left:14%}
-.center{left:50%;transform:translateX(-50%)}
-.right{right:14%}
-
+button.main{margin-top:22px;padding:16px;width:100%;border:none;border-radius:18px;background:var(--mid);color:#fff;font-size:16px;font-weight:700;cursor:pointer;}
+.answers button{width:100%;padding:14px;margin-top:14px;border:none;border-radius:18px;background:var(--mid);color:#fff;font-weight:600;cursor:pointer;}
+.answers input{width:100%;padding:14px;margin-top:14px;border-radius:18px;border:1px solid #ccc;}
+.results-row{display:flex;gap:22px;flex-wrap:wrap;margin-top:18px;}
+.result-box{flex:1;min-width:240px;background:#fff;border-radius:26px;padding:30px;box-shadow:0 14px 32px rgba(0,0,0,.15);}
+h1,h2{margin-bottom:14px} p{line-height:1.6;margin-bottom:10px;}
+.bottom{position:fixed;bottom:0;width:100%;height:110px;z-index:20;}
+.bottom-bg{position:absolute;bottom:0;width:100%;height:92px;background:#fff;border-radius:56px 56px 0 0;border:4px solid var(--dark);}
+.carousel{max-width:640px;margin:auto;height:92px;position:relative;}
+.carousel button{background:none;border:none;cursor:pointer;position:absolute;bottom:2px;}
+.icon{font-size:40px;color:var(--dark);}
+.left{left:14%} .center{left:50%;transform:translateX(-50%)} .right{right:14%}
 </style>
 </head>
 
@@ -192,15 +42,12 @@ p{line-height:1.6;margin-bottom:10px}
 
 <div id="bg"></div>
 
-<div class="topbar">
-Simple Daily
-</div>
+<div class="topbar">Simple Daily</div>
 
 <!-- HOME -->
 <div id="home" class="screen active">
 <div class="card-wrap">
 <div class="card">
-
 <div class="blob tl"></div><div class="blob tr"></div>
 <div class="blob bl"></div><div class="blob br"></div>
 
@@ -218,7 +65,6 @@ Simple Daily
 <div id="questions" class="screen">
 <div class="card-wrap">
 <div class="card">
-
 <div class="blob tl"></div><div class="blob tr"></div>
 <div class="blob bl"></div><div class="blob br"></div>
 
@@ -243,10 +89,8 @@ Simple Daily
 <div id="results" class="screen">
 <div class="card-wrap">
 <div class="card">
-
 <h2>Support For You</h2>
 <div class="results-row" id="resultsBox"></div>
-
 </div>
 </div>
 </div>
@@ -255,10 +99,8 @@ Simple Daily
 <div id="planner" class="screen">
 <div class="card-wrap">
 <div class="card">
-
 <h2>Day Planner</h2>
 <p>This is where daily planning tools can go.</p>
-
 </div>
 </div>
 </div>
@@ -266,30 +108,16 @@ Simple Daily
 <!-- BOTTOM NAV -->
 <div class="bottom">
 <div class="bottom-bg"></div>
-
 <div class="carousel">
-
-<button class="left" onclick="nav('planner')">
-<div class="icon">📅</div>
-</button>
-
-<button class="center" onclick="nav('home')">
-<div class="icon">🏠</div>
-</button>
-
-<button class="right" onclick="startQuestions()">
-<div class="icon">❓</div>
-</button>
-
+<button class="left" onclick="nav('planner')"><div class="icon">📅</div></button>
+<button class="center" onclick="nav('home')"><div class="icon">🏠</div></button>
+<button class="right" onclick="startQuestions()"><div class="icon">❓</div></button>
 </div>
 </div>
 
 <script>
-
 /* BACKGROUND DOTS */
-
 const bg=document.getElementById('bg');
-
 for(let i=0;i<520;i++){
  const d=document.createElement('div');
  d.className='dot';
@@ -302,31 +130,17 @@ for(let i=0;i<520;i++){
 }
 
 /* NAVIGATION */
-
-function nav(id){
- document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
- document.getElementById(id).classList.add('active');
-}
+function nav(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
 
 /* USER DATA */
+let userData={age:null,gender:null,disability:null};
+let qi=0; let score=0;
 
-let userData={
- age:null,
- gender:null,
- disability:null
-};
-
-let qi=0;
-let score=0;
-
-/* QUESTIONS */
-
+/* QUESTIONS (DEMOGRAPHIC + 25 original) */
 const questions=[
-
 {q:"What is your age?",type:"input",field:"age"},
 {q:"What is your gender?",type:"select",field:"gender",a:["Male","Female","Non-binary","Prefer not to say"]},
 {q:"Do you have a disability?",type:"select",field:"disability",a:["No","Physical disability","Learning disability","Mental health condition","Prefer not to say"]},
-
 {q:"How is your mood right now?",a:[["Very positive",2],["Neutral",1],["Low",0]]},
 {q:"How anxious do you feel?",a:[["Not anxious",2],["Somewhat anxious",1],["Very anxious",0]]},
 {q:"How stressed do you feel?",a:[["Calm",2],["Under pressure",1],["Overwhelmed",0]]},
@@ -352,151 +166,91 @@ const questions=[
 {q:"How resilient do you feel?",a:[["Resilient",2],["Struggling",1],["Broken",0]]},
 {q:"How comfortable are you with yourself?",a:[["Comfortable",2],["Unsure",1],["Uncomfortable",0]]},
 {q:"How emotionally stable do you feel?",a:[["Stable",2],["Up and down",1],["Unstable",0]]}
-
 ];
 
 /* START */
-
-function startQuestions(){
- qi=0;
- score=0;
- nav('questions');
- renderQ();
-}
+function startQuestions(){qi=0; score=0; nav('questions'); renderQ();}
 
 /* RENDER QUESTIONS */
-
 function renderQ(){
-
- if(qi>=questions.length){
- nav('loading');
- setTimeout(showResults,1500);
- return;
- }
-
+ if(qi>=questions.length){nav('loading'); setTimeout(showResults,1500); return;}
  const q=questions[qi];
-
- qText.innerText=q.q;
- answers.innerHTML='';
+ qText.innerText=q.q; answers.innerHTML='';
 
  if(q.type==="input"){
-
- const input=document.createElement("input");
- input.type="number";
- input.placeholder="Enter age";
-
- const btn=document.createElement("button");
- btn.className="main";
- btn.innerText="Continue";
-
- btn.onclick=()=>{
- userData[q.field]=input.value;
- qi++;
- renderQ();
+  const input=document.createElement("input");
+  input.type="number"; input.placeholder="Enter age";
+  const btn=document.createElement("button");
+  btn.className="main"; btn.innerText="Continue";
+  btn.onclick=()=>{userData[q.field]=input.value; qi++; renderQ();}
+  answers.appendChild(input); answers.appendChild(btn);
  }
-
- answers.appendChild(input);
- answers.appendChild(btn);
- }
-
  else if(q.type==="select"){
-
- q.a.forEach(option=>{
- const b=document.createElement("button");
- b.innerText=option;
-
- b.onclick=()=>{
- userData[q.field]=option;
- qi++;
- renderQ();
+  q.a.forEach(option=>{
+   const b=document.createElement("button");
+   b.innerText=option;
+   b.onclick=()=>{userData[q.field]=option; qi++; renderQ();}
+   answers.appendChild(b);
+  });
  }
-
- answers.appendChild(b);
- });
-
- }
-
  else{
-
- q.a.forEach(o=>{
- const b=document.createElement("button");
- b.innerText=o[0];
-
- b.onclick=()=>{
- score+=o[1];
- qi++;
- renderQ();
+  q.a.forEach(o=>{
+   const b=document.createElement("button");
+   b.innerText=o[0];
+   b.onclick=()=>{score+=o[1]; qi++; renderQ();}
+   answers.appendChild(b);
+  });
  }
-
- answers.appendChild(b);
- });
-
- }
-
 }
 
-/* SAVE DATA */
-
-function saveResearchData(){
-
+/* SEND DEMOGRAPHIC DATA TO GOOGLE SHEETS */
+async function saveResearchData(){
  const data={
- age:userData.age,
- gender:userData.gender,
- disability:userData.disability,
- score:score,
- timestamp:new Date()
+  age:userData.age,
+  gender:userData.gender,
+  disability:userData.disability
  };
-
- console.log("Research Data:",data);
-
+ try{
+  await fetch("https://script.google.com/macros/s/AKfycbxKV2vdzvEhzl6RrXJB4uQ8yWX8lFhH6k1Q_jDVkl0ArhzhSPlPJT48oVm2aRVjNNCHSg/exec",{
+   method:"POST",
+   body:JSON.stringify(data)
+  });
+  console.log("Demographic data saved to Google Sheets!");
+ } catch(err){console.error("Error sending data:",err);}
 }
 
 /* RESULTS */
-
 function showResults(){
-
  nav('results');
-
  saveResearchData();
-
  resultsBox.innerHTML='';
-
  let supports;
-
  if(score>=40){
- supports=[
- ["Maintain routines","Keep consistent sleep, meals, and movement."],
- ["Mindfulness","Continue grounding practices daily."],
- ["Positive reflection","Journal what’s going well."]
- ];
+  supports=[
+   ["Maintain routines","Keep consistent sleep, meals, and movement."],
+   ["Mindfulness","Continue grounding practices daily."],
+   ["Positive reflection","Journal what’s going well."]
+  ];
+ } else if(score>=25){
+  supports=[
+   ["Take breaks","Short pauses reduce stress buildup."],
+   ["Talk it out","Share feelings with someone trusted."],
+   ["Gentle movement","Stretching or walks can help."]
+  ];
+ } else{
+  supports=[
+   ["Extra care","Prioritise rest and self-kindness."],
+   ["Lower demands","Reduce pressure where possible."],
+   ["Seek support","Professional help can make a difference."]
+  ];
  }
-
- else if(score>=25){
- supports=[
- ["Take breaks","Short pauses reduce stress buildup."],
- ["Talk it out","Share feelings with someone trusted."],
- ["Gentle movement","Stretching or walks can help."]
- ];
- }
-
- else{
- supports=[
- ["Extra care","Prioritise rest and self-kindness."],
- ["Lower demands","Reduce pressure where possible."],
- ["Seek support","Professional help can make a difference."]
- ];
- }
-
  supports.forEach(s=>{
- const d=document.createElement('div');
- d.className='result-box';
- d.innerHTML=`<h3>${s[0]}</h3><p>${s[1]}</p>`;
- resultsBox.appendChild(d);
+  const d=document.createElement('div');
+  d.className='result-box';
+  d.innerHTML=`<h3>${s[0]}</h3><p>${s[1]}</p>`;
+  resultsBox.appendChild(d);
  });
-
 }
-
 </script>
-
 </body>
 </html>
