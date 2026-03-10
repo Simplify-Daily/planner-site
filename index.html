@@ -8,10 +8,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-/* ---------------- RESET ---------------- */
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Lexend',sans-serif}
 
-/* ---------------- COLORS ---------------- */
 :root{
  --dark:#123d63;
  --mid:#1f6fb2;
@@ -19,14 +17,12 @@
  --card:#ffffff;
 }
 
-/* ---------------- BODY ---------------- */
 body{
  background:var(--light);
  height:100vh;
  overflow:hidden;
 }
 
-/* ---------------- BACKGROUND DOTS ---------------- */
 #bg{
  position:fixed;
  inset:0;
@@ -45,7 +41,6 @@ body{
  100%{transform:translateY(0)}
 }
 
-/* ---------------- TOP BAR ---------------- */
 .topbar{
  height:64px;
  background:var(--dark);
@@ -58,58 +53,7 @@ body{
  position:relative;
  z-index:10;
 }
-.burger{
- font-size:28px;
- margin-right:14px;
- cursor:pointer;
-}
 
-/* ---------------- SIDEBAR ---------------- */
-.sidebar{
- position:fixed;
- left:-340px;
- top:0;
- width:320px;
- height:100%;
- background:#fff;
- border-right:4px solid var(--dark);
- z-index:30;
- padding:20px;
- transition:.4s;
- overflow-y:auto;
-}
-.sidebar.active{left:0}
-.sidebar h2{margin-bottom:12px}
-.sidebar img{
- width:120px;
- height:120px;
- border-radius:50%;
- display:block;
- margin:10px auto;
- object-fit:cover;
- border:4px solid var(--dark);
-}
-.sidebar input,
-.sidebar textarea{
- width:100%;
- padding:10px;
- margin-top:10px;
- border-radius:14px;
- border:1px solid #ccc;
-}
-.sidebar button{
- width:100%;
- margin-top:12px;
- padding:12px;
- border:none;
- border-radius:16px;
- background:var(--dark);
- color:#fff;
- font-weight:700;
- cursor:pointer;
-}
-
-/* ---------------- SCREENS ---------------- */
 .screen{
  position:absolute;
  top:64px;
@@ -122,7 +66,6 @@ body{
 }
 .screen.active{display:block}
 
-/* ---------------- CARD ---------------- */
 .card-wrap{
  max-width:760px;
  margin:auto;
@@ -136,42 +79,16 @@ body{
  overflow:hidden;
 }
 
-/* ---------------- BLOBS INSIDE CARDS ---------------- */
 .blob{
  position:absolute;
  background:var(--dark);
  opacity:.14;
 }
-.blob.tl{
- width:160px;
- height:140px;
- top:-30px;
- left:-40px;
- border-radius:70% 30% 60% 40%;
-}
-.blob.tr{
- width:120px;
- height:160px;
- top:-40px;
- right:-30px;
- border-radius:40% 60% 30% 70%;
-}
-.blob.bl{
- width:140px;
- height:120px;
- bottom:-30px;
- left:-30px;
- border-radius:60% 40% 70% 30%;
-}
-.blob.br{
- width:180px;
- height:160px;
- bottom:-40px;
- right:-40px;
- border-radius:30% 70% 40% 60%;
-}
+.blob.tl{width:160px;height:140px;top:-30px;left:-40px;border-radius:70% 30% 60% 40%}
+.blob.tr{width:120px;height:160px;top:-40px;right:-30px;border-radius:40% 60% 30% 70%}
+.blob.bl{width:140px;height:120px;bottom:-30px;left:-30px;border-radius:60% 40% 70% 30%}
+.blob.br{width:180px;height:160px;bottom:-40px;right:-40px;border-radius:30% 70% 40% 60%}
 
-/* ---------------- BUTTONS ---------------- */
 button.main{
  margin-top:22px;
  padding:16px;
@@ -184,6 +101,7 @@ button.main{
  font-weight:700;
  cursor:pointer;
 }
+
 .answers button{
  width:100%;
  padding:14px;
@@ -196,7 +114,14 @@ button.main{
  cursor:pointer;
 }
 
-/* ---------------- BOTTOM BAR ---------------- */
+.answers input{
+ width:100%;
+ padding:14px;
+ margin-top:14px;
+ border-radius:18px;
+ border:1px solid #ccc;
+}
+
 .bottom{
  position:fixed;
  bottom:0;
@@ -213,12 +138,14 @@ button.main{
  border-radius:56px 56px 0 0;
  border:4px solid var(--dark);
 }
+
 .carousel{
  max-width:640px;
  margin:auto;
  height:92px;
  position:relative;
 }
+
 .carousel button{
  background:none;
  border:none;
@@ -226,21 +153,23 @@ button.main{
  position:absolute;
  bottom:2px;
 }
+
 .icon{
  font-size:40px;
  color:var(--dark);
 }
+
 .left{left:14%}
 .center{left:50%;transform:translateX(-50%)}
 .right{right:14%}
 
-/* ---------------- RESULTS ---------------- */
 .results-row{
  display:flex;
  gap:22px;
  flex-wrap:wrap;
  margin-top:18px;
 }
+
 .result-box{
  flex:1;
  min-width:240px;
@@ -249,18 +178,9 @@ button.main{
  padding:30px;
  box-shadow:0 14px 32px rgba(0,0,0,.15);
 }
-.result-box h3{margin-bottom:10px}
 
-/* ---------------- TEXT ---------------- */
 h1,h2{margin-bottom:14px}
 p{line-height:1.6;margin-bottom:10px}
-
-/* ---------------- TRANSITIONS ---------------- */
-.screen,
-.card,
-button{
- transition:.35s ease;
-}
 </style>
 </head>
 
@@ -268,19 +188,7 @@ button{
 
 <div id="bg"></div>
 
-<div class="sidebar" id="sidebar">
-<h2>Profile</h2>
-<img id="pfp" src="https://via.placeholder.com/120">
-<input type="file" accept="image/*" onchange="loadPFP(event)">
-<input id="name" placeholder="Name">
-<input id="age" placeholder="Age">
-<textarea id="problems" placeholder="Existing problems"></textarea>
-<button onclick="saveProfile()">Save Profile</button>
-<button onclick="toggleSidebar()">Close</button>
-</div>
-
 <div class="topbar">
-<span class="burger" onclick="toggleSidebar()">☰</span>
 Simple Daily
 </div>
 
@@ -289,11 +197,13 @@ Simple Daily
 <div class="card-wrap">
 <div class="card">
 <div class="blob tl"></div><div class="blob tr"></div><div class="blob bl"></div><div class="blob br"></div>
+
 <h1>Welcome to Simple Daily</h1>
 <p>This is your calm space to check in with yourself.</p>
 <p>Answer a short mental health check-in and receive tailored support based on how you’re feeling today.</p>
-<p>Nothing here is judged. Everything here is private.</p>
-<button class="main" onclick="startQuestions()">Go to Questionnaire</button>
+
+<button class="main" onclick="startQuestions()">Start Questionnaire</button>
+
 </div>
 </div>
 </div>
@@ -302,9 +212,12 @@ Simple Daily
 <div id="questions" class="screen">
 <div class="card-wrap">
 <div class="card">
+
 <div class="blob tl"></div><div class="blob tr"></div><div class="blob bl"></div><div class="blob br"></div>
+
 <h2 id="qText"></h2>
 <div class="answers" id="answers"></div>
+
 </div>
 </div>
 </div>
@@ -313,7 +226,6 @@ Simple Daily
 <div id="loading" class="screen">
 <div class="card-wrap">
 <div class="card">
-<div class="blob tl"></div><div class="blob tr"></div><div class="blob bl"></div><div class="blob br"></div>
 <h2>Generating your support…</h2>
 <p>Please take a moment.</p>
 </div>
@@ -324,29 +236,29 @@ Simple Daily
 <div id="results" class="screen">
 <div class="card-wrap">
 <div class="card">
-<div class="blob tl"></div><div class="blob tr"></div><div class="blob bl"></div><div class="blob br"></div>
+
 <h2>Support For You</h2>
+
 <div class="results-row" id="resultsBox"></div>
+
 </div>
 </div>
 </div>
 
-<!-- PLANNER -->
-
-
-<!-- BOTTOM BAR -->
+<!-- NAV -->
 <div class="bottom">
 <div class="bottom-bg"></div>
 <div class="carousel">
-<button class="left" onclick="nav('planner')"><div class="icon">📅</div></button>
 <button class="center" onclick="nav('home')"><div class="icon">🏠</div></button>
-<button class="right" onclick="nav('questions')"><div class="icon">❓</div></button>
 </div>
 </div>
 
 <script>
+
 /* BACKGROUND DOTS */
+
 const bg=document.getElementById('bg');
+
 for(let i=0;i<520;i++){
  const d=document.createElement('div');
  d.className='dot';
@@ -358,34 +270,32 @@ for(let i=0;i<520;i++){
  bg.appendChild(d);
 }
 
-/* SIDEBAR */
-function toggleSidebar(){sidebar.classList.toggle('active')}
-function loadPFP(e){
- const r=new FileReader();
- r.onload=()=>pfp.src=r.result;
- r.readAsDataURL(e.target.files[0]);
-}
-function saveProfile(){
- localStorage.name=name.value;
- localStorage.age=age.value;
- localStorage.problems=problems.value;
- localStorage.pfp=pfp.src;
-}
-window.onload=()=>{
- if(localStorage.pfp)pfp.src=localStorage.pfp;
- if(localStorage.name)name.value=localStorage.name;
- if(localStorage.age)age.value=localStorage.age;
- if(localStorage.problems)problems.value=localStorage.problems;
-}
-
 /* NAVIGATION */
+
 function nav(id){
  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
  document.getElementById(id).classList.add('active');
 }
 
-/* QUESTIONS DATA */
+/* USER DATA */
+
+let userData={
+ age:null,
+ gender:null,
+ disability:null
+};
+
+let qi=0;
+let score=0;
+
+/* QUESTIONS */
+
 const questions=[
+
+{q:"What is your age?",type:"input",field:"age"},
+{q:"What is your gender?",type:"select",field:"gender",a:["Male","Female","Non-binary","Prefer not to say"]},
+{q:"Do you have a disability?",type:"select",field:"disability",a:["No","Physical","Learning","Mental health","Prefer not to say"]},
+
 {q:"How is your mood right now?",a:[["Very positive",2],["Neutral",1],["Low",0]]},
 {q:"How anxious do you feel?",a:[["Not anxious",2],["Somewhat anxious",1],["Very anxious",0]]},
 {q:"How stressed do you feel?",a:[["Calm",2],["Under pressure",1],["Overwhelmed",0]]},
@@ -411,68 +321,150 @@ const questions=[
 {q:"How resilient do you feel?",a:[["Resilient",2],["Struggling",1],["Broken",0]]},
 {q:"How comfortable are you with yourself?",a:[["Comfortable",2],["Unsure",1],["Uncomfortable",0]]},
 {q:"How emotionally stable do you feel?",a:[["Stable",2],["Up and down",1],["Unstable",0]]}
+
 ];
 
-let qi=0,score=0;
+/* START */
 
-/* QUESTION FLOW */
 function startQuestions(){
  qi=0;
  score=0;
  nav('questions');
  renderQ();
 }
+
+/* RENDER */
+
 function renderQ(){
- if(qi>=25){
-   nav('loading');
-   setTimeout(showResults,1600);
-   return;
+
+ if(qi>=questions.length){
+  nav('loading');
+  setTimeout(showResults,1500);
+  return;
  }
- qText.innerText=questions[qi].q;
+
+ const q=questions[qi];
+ qText.innerText=q.q;
  answers.innerHTML='';
- questions[qi].a.forEach(o=>{
-   const b=document.createElement('button');
-   b.innerText=o[0];
+
+ if(q.type==="input"){
+
+  const input=document.createElement("input");
+  input.type="number";
+  input.placeholder="Enter age";
+
+  const btn=document.createElement("button");
+  btn.className="main";
+  btn.innerText="Continue";
+
+  btn.onclick=()=>{
+   userData[q.field]=input.value;
+   qi++;
+   renderQ();
+  }
+
+  answers.appendChild(input);
+  answers.appendChild(btn);
+
+ }
+
+ else if(q.type==="select"){
+
+  q.a.forEach(option=>{
+   const b=document.createElement("button");
+   b.innerText=option;
+
    b.onclick=()=>{
-     score+=o[1];
-     qi++;
-     renderQ();
-   };
+    userData[q.field]=option;
+    qi++;
+    renderQ();
+   }
+
    answers.appendChild(b);
- });
+  });
+
+ }
+
+ else{
+
+  q.a.forEach(o=>{
+   const b=document.createElement("button");
+   b.innerText=o[0];
+
+   b.onclick=()=>{
+    score+=o[1];
+    qi++;
+    renderQ();
+   }
+
+   answers.appendChild(b);
+  });
+
+ }
+
+}
+
+/* SAVE DATA */
+
+function saveResearchData(){
+
+ const data={
+  age:userData.age,
+  gender:userData.gender,
+  disability:userData.disability,
+  score:score,
+  timestamp:new Date()
+ };
+
+ console.log("Research Data:",data);
+
 }
 
 /* RESULTS */
+
 function showResults(){
+
  nav('results');
+
+ saveResearchData();
+
  resultsBox.innerHTML='';
- let supports=[];
+
+ let supports;
+
  if(score>=40){
-   supports=[
-    ["Maintain routines","Keep consistent sleep, meals, and movement."],
-    ["Mindfulness","Continue grounding practices daily."],
-    ["Positive reflection","Journal what’s going well."]
-   ];
- }else if(score>=25){
-   supports=[
-    ["Take breaks","Short pauses reduce stress buildup."],
-    ["Talk it out","Share feelings with someone trusted."],
-    ["Gentle movement","Stretching or walks can help."]
-   ];
- }else{
-   supports=[
-    ["Extra care","Prioritise rest and self-kindness."],
-    ["Lower demands","Reduce pressure where possible."],
-    ["Seek support","Professional help can make a difference."]
-   ];
+ supports=[
+ ["Maintain routines","Keep consistent sleep, meals, and movement."],
+ ["Mindfulness","Continue grounding practices daily."],
+ ["Positive reflection","Journal what’s going well."]
+ ];
  }
+
+ else if(score>=25){
+ supports=[
+ ["Take breaks","Short pauses reduce stress buildup."],
+ ["Talk it out","Share feelings with someone trusted."],
+ ["Gentle movement","Stretching or walks can help."]
+ ];
+ }
+
+ else{
+ supports=[
+ ["Extra care","Prioritise rest and self-kindness."],
+ ["Lower demands","Reduce pressure where possible."],
+ ["Seek support","Professional help can make a difference."]
+ ];
+ }
+
  supports.forEach(s=>{
-   const d=document.createElement('div');
-   d.className='result-box';
-   d.innerHTML=`<h3>${s[0]}</h3><p>${s[1]}</p>`;
-   resultsBox.appendChild(d);
+ const d=document.createElement('div');
+ d.className='result-box';
+ d.innerHTML=`<h3>${s[0]}</h3><p>${s[1]}</p>`;
+ resultsBox.appendChild(d);
  });
+
 }
+
 </script>
 
 </body>
