@@ -10,13 +10,13 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Lexend',sans-serif}
 :root{
- --dark:#123d63;
- --mid:#1f6fb2;
- --light:#e9f6ff;
- --card:#ffffff;
+  --dark:#123d63;
+  --mid:#1f6fb2;
+  --light:#e9f6ff;
+  --card:#ffffff;
 }
 
-/* BODY & SCROLL */
+/* BODY */
 body{
   background: var(--light);
   min-height: 100vh;
@@ -29,8 +29,32 @@ body{
 .dot{position:absolute;background:var(--dark);border-radius:50%;opacity:.18;animation:float 22s ease-in-out infinite}
 @keyframes float{0%{transform:translateY(0)}50%{transform:translateY(10px)}100%{transform:translateY(0)}}
 
+/* TOP BAR */
+.topbar{
+  height:64px;
+  background:var(--dark);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  padding:0 18px;
+  font-size:22px;
+  font-weight:700;
+  position:relative;
+  z-index:10;
+}
+
 /* SCREENS */
-.screen{position:absolute;top:64px;left:0;width:100%;height:calc(100vh - 164px);padding:28px;display:none;z-index:5;overflow-y:auto}
+.screen{
+  position:absolute;
+  top:64px;
+  left:0;
+  width:100%;
+  height:calc(100vh - 164px);
+  padding:28px;
+  display:none;
+  z-index:5;
+  overflow-y:auto;
+}
 .screen.active{display:block}
 
 /* CARD */
@@ -76,9 +100,11 @@ p{line-height:1.6;margin-bottom:10px}
 .planner-item input{flex:1;padding:10px;border-radius:14px;border:1px solid #ccc;font-size:14px}
 </style>
 </head>
-
 <body>
+
 <div id="bg"></div>
+
+<div class="topbar">Simple Daily</div>
 
 <!-- HOME -->
 <div id="home" class="screen active">
@@ -169,13 +195,33 @@ function nav(id){
  document.getElementById(id).classList.add('active');
 }
 
-/* QUESTIONS DATA WITH FIRST PROFILE QUESTION */
+/* ORIGINAL QUESTIONS DATA (UNCHANGED) */
 const questions=[
-{q:"Tell us a bit about yourself (first step)",a:[["Enter Info",null]]}, // placeholder
 {q:"How is your mood right now?",a:[["Very positive",2],["Neutral",1],["Low",0]]},
 {q:"How anxious do you feel?",a:[["Not anxious",2],["Somewhat anxious",1],["Very anxious",0]]},
-{q:"How stressed do you feel?",a:[["Calm",2],["Under pressure",1],["Overwhelmed",0]]}
-// ... add all the other questions here
+{q:"How stressed do you feel?",a:[["Calm",2],["Under pressure",1],["Overwhelmed",0]]},
+{q:"How rested do you feel?",a:[["Well rested",2],["Somewhat tired",1],["Exhausted",0]]},
+{q:"How motivated are you today?",a:[["Motivated",2],["Low motivation",1],["No motivation",0]]},
+{q:"How focused have you been?",a:[["Focused",2],["Distracted",1],["Unable to focus",0]]},
+{q:"How connected do you feel?",a:[["Connected",2],["Somewhat isolated",1],["Very isolated",0]]},
+{q:"How tense does your body feel?",a:[["Relaxed",2],["Tense",1],["Very tense",0]]},
+{q:"How hopeful do you feel?",a:[["Hopeful",2],["Unsure",1],["Hopeless",0]]},
+{q:"How emotionally drained are you?",a:[["Not drained",2],["Tired",1],["Burnt out",0]]},
+{q:"How confident do you feel?",a:[["Confident",2],["Unsure",1],["Insecure",0]]},
+{q:"How lonely do you feel?",a:[["Not lonely",2],["Occasionally",1],["Very lonely",0]]},
+{q:"How irritable do you feel?",a:[["Calm",2],["Easily annoyed",1],["Very irritable",0]]},
+{q:"How balanced do you feel emotionally?",a:[["Balanced",2],["Unsteady",1],["Out of control",0]]},
+{q:"How satisfied are you with today?",a:[["Satisfied",2],["Neutral",1],["Dissatisfied",0]]},
+{q:"How safe do you feel emotionally?",a:[["Safe",2],["Uncertain",1],["Unsafe",0]]},
+{q:"How supported do you feel?",a:[["Supported",2],["Somewhat",1],["Unsupported",0]]},
+{q:"How mentally tired are you?",a:[["Alert",2],["Tired",1],["Burnt out",0]]},
+{q:"How positive were your thoughts?",a:[["Mostly positive",2],["Mixed",1],["Negative",0]]},
+{q:"How calm do you feel inside?",a:[["Calm",2],["Restless",1],["On edge",0]]},
+{q:"How in control do you feel?",a:[["In control",2],["Some control",1],["No control",0]]},
+{q:"How often did worries interrupt you?",a:[["Rarely",2],["Sometimes",1],["Constantly",0]]},
+{q:"How resilient do you feel?",a:[["Resilient",2],["Struggling",1],["Broken",0]]},
+{q:"How comfortable are you with yourself?",a:[["Comfortable",2],["Unsure",1],["Uncomfortable",0]]},
+{q:"How emotionally stable do you feel?",a:[["Stable",2],["Up and down",1],["Unstable",0]]}
 ];
 
 let qi=0,score=0;
@@ -185,7 +231,6 @@ let profileData={};
 function startQuestions(){
  qi=0;
  score=0;
- nav('questions');
  renderQ();
 }
 
@@ -195,36 +240,43 @@ function renderQ(){
  answers.innerHTML='';
 
  if(qi===0){
-   // FIRST QUESTION: collect age, gender, disability
-   qText.innerHTML="Please fill your basic info:";
+   // FIRST STEP: collect age, gender, disability
+   qText.innerText="Please provide your basic info:";
    answers.innerHTML=`
-<input id="ageInput" placeholder="Age" type="number" style="margin-bottom:10px;">
-<select id="genderInput" style="margin-bottom:10px;">
-  <option value="" disabled selected>Gender</option>
-  <option value="Male">Male</option>
-  <option value="Female">Female</option>
-  <option value="Other">Other</option>
-</select>
-<select id="disabilityInput" style="margin-bottom:10px;">
-  <option value="" disabled selected>Disability (if any)</option>
-  <option value="None">None</option>
-  <option value="Physical">Physical</option>
-  <option value="Mental">Mental</option>
-  <option value="Other">Other</option>
-</select>
-<button onclick="saveProfileAndNext()">Next</button>
-`;
+   <input id="ageInput" type="number" placeholder="Age" style="margin-bottom:10px;">
+   <select id="genderInput" style="margin-bottom:10px;">
+     <option value="" disabled selected>Gender</option>
+     <option value="Male">Male</option>
+     <option value="Female">Female</option>
+     <option value="Other">Other</option>
+   </select>
+   <select id="disabilityInput" style="margin-bottom:10px;">
+     <option value="" disabled selected>Disability (if any)</option>
+     <option value="None">None</option>
+     <option value="Physical">Physical</option>
+     <option value="Mental">Mental</option>
+     <option value="Other">Other</option>
+   </select>
+   <button onclick="saveProfileAndNext()">Next</button>
+   `;
    return;
  }
 
- // Normal question buttons
- qText.innerText=questions[qi].q;
- questions[qi].a.forEach(o=>{
+ // ORIGINAL QUESTION FLOW
+ const currentQ=questions[qi-1];
+ qText.innerText=currentQ.q;
+ answers.innerHTML='';
+ currentQ.a.forEach(o=>{
    const b=document.createElement('button');
    b.innerText=o[0];
    b.onclick=()=>{
-     score+=o[1]||0;
+     score+=o[1];
      qi++;
+     if(qi>questions.length){
+       nav('loading');
+       setTimeout(showResults,1600);
+       return;
+     }
      renderQ();
    };
    answers.appendChild(b);
@@ -271,7 +323,7 @@ function showResults(){
    resultsBox.appendChild(d);
  });
 
- // Send data to Google Sheets
+ // SEND DATA TO GOOGLE SHEETS
  fetch("https://script.google.com/macros/s/AKfycbxKV2vdzvEhzl6RrXJB4uQ8yWX8lFhH6k1Q_jDVkl0ArhzhSPlPJT48oVm2aRVjNNCHSg/exec",{
    method:"POST",
    mode:"no-cors",
@@ -286,22 +338,16 @@ function addPlannerItem(){
  const item=document.createElement('div');
  item.className='planner-item';
  item.innerHTML=`
-<select>
-<option value="08:00">08:00</option>
-<option value="09:00">09:00</option>
-<option value="10:00">10:00</option>
-<option value="11:00">11:00</option>
-<option value="12:00">12:00</option>
-<option value="13:00">13:00</option>
-<option value="14:00">14:00</option>
-<option value="15:00">15:00</option>
-<option value="16:00">16:00</option>
-<option value="17:00">17:00</option>
-<option value="18:00">18:00</option>
-<option value="19:00">19:00</option>
-</select>
-<input placeholder="Plan for this time">
-`;
+ <select>
+ <option value="08:00">08:00</option><option value="09:00">09:00</option>
+ <option value="10:00">10:00</option><option value="11:00">11:00</option>
+ <option value="12:00">12:00</option><option value="13:00">13:00</option>
+ <option value="14:00">14:00</option><option value="15:00">15:00</option>
+ <option value="16:00">16:00</option><option value="17:00">17:00</option>
+ <option value="18:00">18:00</option><option value="19:00">19:00</option>
+ </select>
+ <input placeholder="Plan for this time">
+ `;
  plannerList.appendChild(item);
 }
 </script>
