@@ -35,6 +35,34 @@ h1,h2{margin-bottom:14px} p{line-height:1.6;margin-bottom:10px;}
 .carousel button{background:none;border:none;cursor:pointer;position:absolute;bottom:2px;}
 .icon{font-size:40px;color:var(--dark);}
 .left{left:14%} .center{left:50%;transform:translateX(-50%)} .right{right:14%}
+ /* PLANNER ITEMS */
+
+.planner-item{
+background:#fff;
+border-radius:26px;
+padding:18px;
+margin-top:16px;
+box-shadow:0 10px 25px rgba(0,0,0,.12);
+display:flex;
+gap:12px;
+align-items:center;
+}
+
+.planner-item select{
+padding:10px;
+border-radius:14px;
+border:1px solid #ccc;
+font-size:14px;
+}
+
+.planner-item input{
+flex:1;
+padding:10px;
+border-radius:14px;
+border:1px solid #ccc;
+font-size:14px;
+}
+
 </style>
 </head>
 
@@ -97,12 +125,25 @@ h1,h2{margin-bottom:14px} p{line-height:1.6;margin-bottom:10px;}
 
 <!-- PLANNER -->
 <div id="planner" class="screen">
+
 <div class="card-wrap">
 <div class="card">
-<h2>Day Planner</h2>
-<p>This is where daily planning tools can go.</p>
+
+<div class="blob tl"></div>
+<div class="blob tr"></div>
+<div class="blob bl"></div>
+<div class="blob br"></div>
+
+<h2>Daily Planner</h2>
+<p>Plan your day using simple time blocks.</p>
+
+<div id="plannerList"></div>
+
+<button class="main" onclick="addPlannerItem()">Add New Plan</button>
+
 </div>
 </div>
+
 </div>
 
 <!-- BOTTOM NAV -->
@@ -251,6 +292,105 @@ function showResults(){
   resultsBox.appendChild(d);
  });
 }
+ /* DAILY PLANNER */
+
+function addPlannerItem(time="",text=""){
+
+const container=document.getElementById("plannerList");
+
+const item=document.createElement("div");
+item.className="planner-item";
+
+/* TIME DROPDOWN */
+
+const timeSelect=document.createElement("select");
+
+const times=[
+"06:00","07:00","08:00","09:00",
+"10:00","11:00","12:00","13:00",
+"14:00","15:00","16:00","17:00",
+"18:00","19:00","20:00","21:00",
+"22:00"
+];
+
+times.forEach(t=>{
+const option=document.createElement("option");
+option.value=t;
+option.textContent=t;
+
+if(t===time){
+option.selected=true;
+}
+
+timeSelect.appendChild(option);
+});
+
+/* PLAN TEXT */
+
+const textInput=document.createElement("input");
+textInput.placeholder="What is your plan?";
+textInput.value=text;
+
+/* APPEND */
+
+item.appendChild(timeSelect);
+item.appendChild(textInput);
+
+container.appendChild(item);
+
+/* SAVE EVENTS */
+
+timeSelect.onchange=savePlanner;
+textInput.oninput=savePlanner;
+
+savePlanner();
+
+}
+
+/* SAVE PLANS */
+
+function savePlanner(){
+
+const plans=[];
+
+document.querySelectorAll(".planner-item").forEach(item=>{
+
+plans.push({
+time:item.querySelector("select").value,
+text:item.querySelector("input").value
+});
+
+});
+
+localStorage.setItem("dailyPlans",JSON.stringify(plans));
+
+}
+
+/* LOAD PLANS */
+
+function loadPlanner(){
+
+const saved=JSON.parse(localStorage.getItem("dailyPlans")) || [];
+
+if(saved.length===0){
+
+addPlannerItem();
+
+return;
+
+}
+
+saved.forEach(plan=>{
+
+addPlannerItem(plan.time,plan.text);
+
+});
+
+}
+
+window.addEventListener("load",loadPlanner);
+
 </script>
 </body>
 </html>
+
