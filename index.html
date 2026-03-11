@@ -4,94 +4,92 @@
 <meta charset="UTF-8">
 <title>Simple Daily</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Lexend',sans-serif}
-:root{--dark:#123d63;--mid:#1f6fb2;--light:#e9f6ff;--card:#ffffff;}
-<style>
-/* ---------------- BODY ---------------- */
+:root{
+ --dark:#123d63;
+ --mid:#1f6fb2;
+ --light:#e9f6ff;
+ --card:#ffffff;
+}
+
+/* BODY & SCROLL */
 body{
   background: var(--light);
   min-height: 100vh;
-  overflow-y: auto; /* allows vertical scrolling */
+  overflow-y: auto;
+  font-family:'Lexend',sans-serif;
+}
 
-
-#bg{position:fixed;inset:0;z-index:0;}
-.dot{position:absolute;background:var(--dark);border-radius:50%;opacity:.18;animation:float 22s ease-in-out infinite;}
+/* BACKGROUND DOTS */
+#bg{position:fixed;inset:0;z-index:0}
+.dot{position:absolute;background:var(--dark);border-radius:50%;opacity:.18;animation:float 22s ease-in-out infinite}
 @keyframes float{0%{transform:translateY(0)}50%{transform:translateY(10px)}100%{transform:translateY(0)}}
-.topbar{height:64px;background:var(--dark);color:#fff;display:flex;align-items:center;padding:0 18px;font-size:22px;font-weight:700;z-index:10;}
-.screen{position:absolute;top:64px;left:0;width:100%;height:calc(100vh - 164px);padding:28px;display:none;z-index:5;}
+
+/* SCREENS */
+.screen{position:absolute;top:64px;left:0;width:100%;height:calc(100vh - 164px);padding:28px;display:none;z-index:5;overflow-y:auto}
 .screen.active{display:block}
-.card-wrap{max-width:760px;margin:auto;}
-.card{background:var(--card);border-radius:30px;padding:44px 36px;box-shadow:0 18px 40px rgba(0,0,0,.15);position:relative;overflow:hidden;}
-.blob{position:absolute;background:var(--dark);opacity:.14;}
+
+/* CARD */
+.card-wrap{max-width:760px;margin:auto}
+.card{background:var(--card);border-radius:30px;padding:44px 36px;box-shadow:0 18px 40px rgba(0,0,0,.15);position:relative;overflow:hidden}
+
+/* BLOBS */
+.blob{position:absolute;background:var(--dark);opacity:.14}
 .blob.tl{width:160px;height:140px;top:-30px;left:-40px;border-radius:70% 30% 60% 40%}
 .blob.tr{width:120px;height:160px;top:-40px;right:-30px;border-radius:40% 60% 30% 70%}
 .blob.bl{width:140px;height:120px;bottom:-30px;left:-30px;border-radius:60% 40% 70% 30%}
 .blob.br{width:180px;height:160px;bottom:-40px;right:-40px;border-radius:30% 70% 40% 60%}
-button.main{margin-top:22px;padding:16px;width:100%;border:none;border-radius:18px;background:var(--mid);color:#fff;font-size:16px;font-weight:700;cursor:pointer;}
-.answers button{width:100%;padding:14px;margin-top:14px;border:none;border-radius:18px;background:var(--mid);color:#fff;font-weight:600;cursor:pointer;}
-.answers input{width:100%;padding:14px;margin-top:14px;border-radius:18px;border:1px solid #ccc;}
-.results-row{display:flex;gap:22px;flex-wrap:wrap;margin-top:18px;}
-.result-box{flex:1;min-width:240px;background:#fff;border-radius:26px;padding:30px;box-shadow:0 14px 32px rgba(0,0,0,.15);}
-h1,h2{margin-bottom:14px} p{line-height:1.6;margin-bottom:10px;}
-.bottom{position:fixed;bottom:0;width:100%;height:110px;z-index:20;}
-.bottom-bg{position:absolute;bottom:0;width:100%;height:92px;background:#fff;border-radius:56px 56px 0 0;border:4px solid var(--dark);}
-.carousel{max-width:640px;margin:auto;height:92px;position:relative;}
-.carousel button{background:none;border:none;cursor:pointer;position:absolute;bottom:2px;}
-.icon{font-size:40px;color:var(--dark);}
-.left{left:14%} .center{left:50%;transform:translateX(-50%)} .right{right:14%}
- /* PLANNER ITEMS */
 
-.planner-item{
-background:#fff;
-border-radius:26px;
-padding:18px;
-margin-top:16px;
-box-shadow:0 10px 25px rgba(0,0,0,.12);
-display:flex;
-gap:12px;
-align-items:center;
-}
+/* BUTTONS */
+button.main{margin-top:22px;padding:16px;width:100%;border:none;border-radius:18px;background:var(--mid);color:#fff;font-size:16px;font-weight:700;cursor:pointer}
+.answers button{width:100%;padding:14px;margin-top:14px;border:none;border-radius:18px;background:var(--mid);color:#fff;font-weight:600;cursor:pointer}
 
-.planner-item select{
-padding:10px;
-border-radius:14px;
-border:1px solid #ccc;
-font-size:14px;
-}
+/* BOTTOM BAR */
+.bottom{position:fixed;bottom:0;width:100%;height:110px;z-index:20}
+.bottom-bg{position:absolute;bottom:0;width:100%;height:92px;background:#fff;border-radius:56px 56px 0 0;border:4px solid var(--dark)}
+.carousel{max-width:640px;margin:auto;height:92px;position:relative}
+.carousel button{background:none;border:none;cursor:pointer;position:absolute;bottom:2px}
+.icon{font-size:40px;color:var(--dark)}
+.left{left:14%}
+.center{left:50%;transform:translateX(-50%)}
+.right{right:14%}
 
-.planner-item input{
-flex:1;
-padding:10px;
-border-radius:14px;
-border:1px solid #ccc;
-font-size:14px;
-}
+/* RESULTS */
+.results-row{display:flex;gap:22px;flex-wrap:wrap;margin-top:18px}
+.result-box{flex:1;min-width:240px;background:#fff;border-radius:26px;padding:30px;box-shadow:0 14px 32px rgba(0,0,0,.15)}
+.result-box h3{margin-bottom:10px}
 
+/* TEXT */
+h1,h2{margin-bottom:14px}
+p{line-height:1.6;margin-bottom:10px}
+
+/* TRANSITIONS */
+.screen,.card,button{transition:.35s ease}
+
+/* PLANNER ITEMS */
+.planner-item{background:#fff;border-radius:26px;padding:18px;margin-top:16px;box-shadow:0 10px 25px rgba(0,0,0,.12);display:flex;gap:12px;align-items:center}
+.planner-item select{padding:10px;border-radius:14px;border:1px solid #ccc;font-size:14px}
+.planner-item input{flex:1;padding:10px;border-radius:14px;border:1px solid #ccc;font-size:14px}
 </style>
 </head>
 
 <body>
-
 <div id="bg"></div>
-
-<div class="topbar">Simple Daily</div>
 
 <!-- HOME -->
 <div id="home" class="screen active">
 <div class="card-wrap">
 <div class="card">
-<div class="blob tl"></div><div class="blob tr"></div>
-<div class="blob bl"></div><div class="blob br"></div>
-
+<div class="blob tl"></div><div class="blob tr"></div><div class="blob bl"></div><div class="blob br"></div>
 <h1>Welcome to Simple Daily</h1>
 <p>This is your calm space to check in with yourself.</p>
 <p>Answer a short mental health check-in and receive tailored support based on how you’re feeling today.</p>
-
+<p>Nothing here is judged. Everything here is private.</p>
 <button class="main" onclick="startQuestions()">Go to Questionnaire</button>
-
 </div>
 </div>
 </div>
@@ -100,12 +98,9 @@ font-size:14px;
 <div id="questions" class="screen">
 <div class="card-wrap">
 <div class="card">
-<div class="blob tl"></div><div class="blob tr"></div>
-<div class="blob bl"></div><div class="blob br"></div>
-
+<div class="blob tl"></div><div class="blob tr"></div><div class="blob bl"></div><div class="blob br"></div>
 <h2 id="qText"></h2>
 <div class="answers" id="answers"></div>
-
 </div>
 </div>
 </div>
@@ -114,6 +109,7 @@ font-size:14px;
 <div id="loading" class="screen">
 <div class="card-wrap">
 <div class="card">
+<div class="blob tl"></div><div class="blob tr"></div><div class="blob bl"></div><div class="blob br"></div>
 <h2>Generating your support…</h2>
 <p>Please take a moment.</p>
 </div>
@@ -124,6 +120,7 @@ font-size:14px;
 <div id="results" class="screen">
 <div class="card-wrap">
 <div class="card">
+<div class="blob tl"></div><div class="blob tr"></div><div class="blob bl"></div><div class="blob br"></div>
 <h2>Support For You</h2>
 <div class="results-row" id="resultsBox"></div>
 </div>
@@ -132,34 +129,23 @@ font-size:14px;
 
 <!-- PLANNER -->
 <div id="planner" class="screen">
-
 <div class="card-wrap">
 <div class="card">
-
-<div class="blob tl"></div>
-<div class="blob tr"></div>
-<div class="blob bl"></div>
-<div class="blob br"></div>
-
+<div class="blob tl"></div><div class="blob tr"></div><div class="blob bl"></div><div class="blob br"></div>
 <h2>Daily Planner</h2>
-<p>Plan your day using simple time blocks.</p>
-
 <div id="plannerList"></div>
-
-<button class="main" onclick="addPlannerItem()">Add New Plan</button>
-
+<button class="main" onclick="addPlannerItem()">Add Task</button>
 </div>
 </div>
-
 </div>
 
-<!-- BOTTOM NAV -->
+<!-- BOTTOM BAR -->
 <div class="bottom">
 <div class="bottom-bg"></div>
 <div class="carousel">
 <button class="left" onclick="nav('planner')"><div class="icon">📅</div></button>
 <button class="center" onclick="nav('home')"><div class="icon">🏠</div></button>
-<button class="right" onclick="startQuestions()"><div class="icon">❓</div></button>
+<button class="right" onclick="nav('questions')"><div class="icon">❓</div></button>
 </div>
 </div>
 
@@ -178,227 +164,147 @@ for(let i=0;i<520;i++){
 }
 
 /* NAVIGATION */
-function nav(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
-
-/* USER DATA */
-let userData={age:null,gender:null,disability:null};
-let qi=0; let score=0;
-
-/* QUESTIONS (DEMOGRAPHIC + 25 original) */
-const questions=[
-{q:"What is your age?",type:"input",field:"age"},
-{q:"What is your gender?",type:"select",field:"gender",a:["Male","Female","Non-binary","Prefer not to say"]},
-{q:"Do you have a disability?",type:"select",field:"disability",a:["No","Physical disability","Learning disability","Mental health condition","Prefer not to say"]},
-{q:"How is your mood right now?",a:[["Very positive",2],["Neutral",1],["Low",0]]},
-{q:"How anxious do you feel?",a:[["Not anxious",2],["Somewhat anxious",1],["Very anxious",0]]},
-{q:"How stressed do you feel?",a:[["Calm",2],["Under pressure",1],["Overwhelmed",0]]},
-{q:"How rested do you feel?",a:[["Well rested",2],["Somewhat tired",1],["Exhausted",0]]},
-{q:"How motivated are you today?",a:[["Motivated",2],["Low motivation",1],["No motivation",0]]},
-{q:"How focused have you been?",a:[["Focused",2],["Distracted",1],["Unable to focus",0]]},
-{q:"How connected do you feel?",a:[["Connected",2],["Somewhat isolated",1],["Very isolated",0]]},
-{q:"How tense does your body feel?",a:[["Relaxed",2],["Tense",1],["Very tense",0]]},
-{q:"How hopeful do you feel?",a:[["Hopeful",2],["Unsure",1],["Hopeless",0]]},
-{q:"How emotionally drained are you?",a:[["Not drained",2],["Tired",1],["Burnt out",0]]},
-{q:"How confident do you feel?",a:[["Confident",2],["Unsure",1],["Insecure",0]]},
-{q:"How lonely do you feel?",a:[["Not lonely",2],["Occasionally",1],["Very lonely",0]]},
-{q:"How irritable do you feel?",a:[["Calm",2],["Easily annoyed",1],["Very irritable",0]]},
-{q:"How balanced do you feel emotionally?",a:[["Balanced",2],["Unsteady",1],["Out of control",0]]},
-{q:"How satisfied are you with today?",a:[["Satisfied",2],["Neutral",1],["Dissatisfied",0]]},
-{q:"How safe do you feel emotionally?",a:[["Safe",2],["Uncertain",1],["Unsafe",0]]},
-{q:"How supported do you feel?",a:[["Supported",2],["Somewhat",1],["Unsupported",0]]},
-{q:"How mentally tired are you?",a:[["Alert",2],["Tired",1],["Burnt out",0]]},
-{q:"How positive were your thoughts?",a:[["Mostly positive",2],["Mixed",1],["Negative",0]]},
-{q:"How calm do you feel inside?",a:[["Calm",2],["Restless",1],["On edge",0]]},
-{q:"How in control do you feel?",a:[["In control",2],["Some control",1],["No control",0]]},
-{q:"How often did worries interrupt you?",a:[["Rarely",2],["Sometimes",1],["Constantly",0]]},
-{q:"How resilient do you feel?",a:[["Resilient",2],["Struggling",1],["Broken",0]]},
-{q:"How comfortable are you with yourself?",a:[["Comfortable",2],["Unsure",1],["Uncomfortable",0]]},
-{q:"How emotionally stable do you feel?",a:[["Stable",2],["Up and down",1],["Unstable",0]]}
-];
-
-/* START */
-function startQuestions(){qi=0; score=0; nav('questions'); renderQ();}
-
-/* RENDER QUESTIONS */
-function renderQ(){
- if(qi>=questions.length){nav('loading'); setTimeout(showResults,1500); return;}
- const q=questions[qi];
- qText.innerText=q.q; answers.innerHTML='';
-
- if(q.type==="input"){
-  const input=document.createElement("input");
-  input.type="number"; input.placeholder="Enter age";
-  const btn=document.createElement("button");
-  btn.className="main"; btn.innerText="Continue";
-  btn.onclick=()=>{userData[q.field]=input.value; qi++; renderQ();}
-  answers.appendChild(input); answers.appendChild(btn);
- }
- else if(q.type==="select"){
-  q.a.forEach(option=>{
-   const b=document.createElement("button");
-   b.innerText=option;
-   b.onclick=()=>{userData[q.field]=option; qi++; renderQ();}
-   answers.appendChild(b);
-  });
- }
- else{
-  q.a.forEach(o=>{
-   const b=document.createElement("button");
-   b.innerText=o[0];
-   b.onclick=()=>{score+=o[1]; qi++; renderQ();}
-   answers.appendChild(b);
-  });
- }
+function nav(id){
+ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
 }
 
-/* SEND DEMOGRAPHIC DATA TO GOOGLE SHEETS */
-async function saveResearchData(){
- const data={
-  age:userData.age,
-  gender:userData.gender,
-  disability:userData.disability
- };
- try{
-  await fetch("https://script.google.com/macros/s/AKfycbxKV2vdzvEhzl6RrXJB4uQ8yWX8lFhH6k1Q_jDVkl0ArhzhSPlPJT48oVm2aRVjNNCHSg/exec",{
-   method:"POST",
-   body:JSON.stringify(data)
-  });
-  console.log("Demographic data saved to Google Sheets!");
- } catch(err){console.error("Error sending data:",err);}
+/* QUESTIONS DATA WITH FIRST PROFILE QUESTION */
+const questions=[
+{q:"Tell us a bit about yourself (first step)",a:[["Enter Info",null]]}, // placeholder
+{q:"How is your mood right now?",a:[["Very positive",2],["Neutral",1],["Low",0]]},
+{q:"How anxious do you feel?",a:[["Not anxious",2],["Somewhat anxious",1],["Very anxious",0]]},
+{q:"How stressed do you feel?",a:[["Calm",2],["Under pressure",1],["Overwhelmed",0]]}
+// ... add all the other questions here
+];
+
+let qi=0,score=0;
+let profileData={};
+
+/* QUESTION FLOW */
+function startQuestions(){
+ qi=0;
+ score=0;
+ nav('questions');
+ renderQ();
+}
+
+function renderQ(){
+ const qText=document.getElementById('qText');
+ const answers=document.getElementById('answers');
+ answers.innerHTML='';
+
+ if(qi===0){
+   // FIRST QUESTION: collect age, gender, disability
+   qText.innerHTML="Please fill your basic info:";
+   answers.innerHTML=`
+<input id="ageInput" placeholder="Age" type="number" style="margin-bottom:10px;">
+<select id="genderInput" style="margin-bottom:10px;">
+  <option value="" disabled selected>Gender</option>
+  <option value="Male">Male</option>
+  <option value="Female">Female</option>
+  <option value="Other">Other</option>
+</select>
+<select id="disabilityInput" style="margin-bottom:10px;">
+  <option value="" disabled selected>Disability (if any)</option>
+  <option value="None">None</option>
+  <option value="Physical">Physical</option>
+  <option value="Mental">Mental</option>
+  <option value="Other">Other</option>
+</select>
+<button onclick="saveProfileAndNext()">Next</button>
+`;
+   return;
+ }
+
+ // Normal question buttons
+ qText.innerText=questions[qi].q;
+ questions[qi].a.forEach(o=>{
+   const b=document.createElement('button');
+   b.innerText=o[0];
+   b.onclick=()=>{
+     score+=o[1]||0;
+     qi++;
+     renderQ();
+   };
+   answers.appendChild(b);
+ });
+}
+
+function saveProfileAndNext(){
+ profileData.age=document.getElementById('ageInput').value;
+ profileData.gender=document.getElementById('genderInput').value;
+ profileData.disability=document.getElementById('disabilityInput').value;
+ qi++;
+ renderQ();
 }
 
 /* RESULTS */
 function showResults(){
  nav('results');
- saveResearchData();
+ const resultsBox=document.getElementById('resultsBox');
  resultsBox.innerHTML='';
- let supports;
+ let supports=[];
  if(score>=40){
-  supports=[
-   ["Maintain routines","Keep consistent sleep, meals, and movement."],
-   ["Mindfulness","Continue grounding practices daily."],
-   ["Positive reflection","Journal what’s going well."]
-  ];
- } else if(score>=25){
-  supports=[
-   ["Take breaks","Short pauses reduce stress buildup."],
-   ["Talk it out","Share feelings with someone trusted."],
-   ["Gentle movement","Stretching or walks can help."]
-  ];
- } else{
-  supports=[
-   ["Extra care","Prioritise rest and self-kindness."],
-   ["Lower demands","Reduce pressure where possible."],
-   ["Seek support","Professional help can make a difference."]
-  ];
+   supports=[
+    ["Maintain routines","Keep consistent sleep, meals, and movement."],
+    ["Mindfulness","Continue grounding practices daily."],
+    ["Positive reflection","Journal what’s going well."]
+   ];
+ }else if(score>=25){
+   supports=[
+    ["Take breaks","Short pauses reduce stress buildup."],
+    ["Talk it out","Share feelings with someone trusted."],
+    ["Gentle movement","Stretching or walks can help."]
+   ];
+ }else{
+   supports=[
+    ["Extra care","Prioritise rest and self-kindness."],
+    ["Lower demands","Reduce pressure where possible."],
+    ["Seek support","Professional help can make a difference."]
+   ];
  }
  supports.forEach(s=>{
-  const d=document.createElement('div');
-  d.className='result-box';
-  d.innerHTML=`<h3>${s[0]}</h3><p>${s[1]}</p>`;
-  resultsBox.appendChild(d);
+   const d=document.createElement('div');
+   d.className='result-box';
+   d.innerHTML=`<h3>${s[0]}</h3><p>${s[1]}</p>`;
+   resultsBox.appendChild(d);
+ });
+
+ // Send data to Google Sheets
+ fetch("https://script.google.com/macros/s/AKfycbxKV2vdzvEhzl6RrXJB4uQ8yWX8lFhH6k1Q_jDVkl0ArhzhSPlPJT48oVm2aRVjNNCHSg/exec",{
+   method:"POST",
+   mode:"no-cors",
+   headers:{"Content-Type":"application/json"},
+   body:JSON.stringify({...profileData,score})
  });
 }
- /* DAILY PLANNER */
 
-function addPlannerItem(time="",text=""){
-
-const container=document.getElementById("plannerList");
-
-const item=document.createElement("div");
-item.className="planner-item";
-
-/* TIME DROPDOWN */
-
-const timeSelect=document.createElement("select");
-
-const times=[
-"06:00","07:00","08:00","09:00",
-"10:00","11:00","12:00","13:00",
-"14:00","15:00","16:00","17:00",
-"18:00","19:00","20:00","21:00",
-"22:00"
-];
-
-times.forEach(t=>{
-const option=document.createElement("option");
-option.value=t;
-option.textContent=t;
-
-if(t===time){
-option.selected=true;
+/* PLANNER */
+function addPlannerItem(){
+ const plannerList=document.getElementById('plannerList');
+ const item=document.createElement('div');
+ item.className='planner-item';
+ item.innerHTML=`
+<select>
+<option value="08:00">08:00</option>
+<option value="09:00">09:00</option>
+<option value="10:00">10:00</option>
+<option value="11:00">11:00</option>
+<option value="12:00">12:00</option>
+<option value="13:00">13:00</option>
+<option value="14:00">14:00</option>
+<option value="15:00">15:00</option>
+<option value="16:00">16:00</option>
+<option value="17:00">17:00</option>
+<option value="18:00">18:00</option>
+<option value="19:00">19:00</option>
+</select>
+<input placeholder="Plan for this time">
+`;
+ plannerList.appendChild(item);
 }
-
-timeSelect.appendChild(option);
-});
-
-/* PLAN TEXT */
-
-const textInput=document.createElement("input");
-textInput.placeholder="What is your plan?";
-textInput.value=text;
-
-/* APPEND */
-
-item.appendChild(timeSelect);
-item.appendChild(textInput);
-
-container.appendChild(item);
-
-/* SAVE EVENTS */
-
-timeSelect.onchange=savePlanner;
-textInput.oninput=savePlanner;
-
-savePlanner();
-
-}
-
-/* SAVE PLANS */
-
-function savePlanner(){
-
-const plans=[];
-
-document.querySelectorAll(".planner-item").forEach(item=>{
-
-plans.push({
-time:item.querySelector("select").value,
-text:item.querySelector("input").value
-});
-
-});
-
-localStorage.setItem("dailyPlans",JSON.stringify(plans));
-
-}
-
-/* LOAD PLANS */
-
-function loadPlanner(){
-
-const saved=JSON.parse(localStorage.getItem("dailyPlans")) || [];
-
-if(saved.length===0){
-
-addPlannerItem();
-
-return;
-
-}
-
-saved.forEach(plan=>{
-
-addPlannerItem(plan.time,plan.text);
-
-});
-
-}
-
-window.addEventListener("load",loadPlanner);
-
 </script>
+
 </body>
 </html>
-
-
