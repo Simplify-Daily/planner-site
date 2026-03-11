@@ -9,7 +9,14 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Lexend',sans-serif}
 :root{--dark:#123d63;--mid:#1f6fb2;--light:#e9f6ff;--card:#ffffff;}
-body{background:var(--light);height:100vh;overflow:hidden;}
+<style>
+/* ---------------- BODY ---------------- */
+body{
+  background: var(--light);
+  min-height: 100vh;
+  overflow-y: auto; /* allows vertical scrolling */
+
+
 #bg{position:fixed;inset:0;z-index:0;}
 .dot{position:absolute;background:var(--dark);border-radius:50%;opacity:.18;animation:float 22s ease-in-out infinite;}
 @keyframes float{0%{transform:translateY(0)}50%{transform:translateY(10px)}100%{transform:translateY(0)}}
@@ -393,4 +400,5 @@ window.addEventListener("load",loadPlanner);
 </script>
 </body>
 </html>
+
 
