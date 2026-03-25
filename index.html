@@ -122,7 +122,7 @@ function render(){
  if(q.img) qImg.src=q.img;
 
  if(q.type==="input"){
-  let i=document.createElement("input");i.type="number";
+  let i=document.createElement("input");i.type=q.field === "age" ? "number" : "text";
   let b=document.createElement("button");b.innerText="Next";
   b.onclick=()=>{userData[q.field]=i.value;qi++;render();};
   answers.appendChild(i);answers.appendChild(b);
