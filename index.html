@@ -2,362 +2,219 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Simplify Daily</title>
+<title>Simply Daily</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&display=swap" rel="stylesheet">
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Lexend',sans-serif}
-:root{
-  --dark:#123d63;
-  --mid:#1f6fb2;
-  --light:#e9f6ff;
-  --card:#ffffff;
-}
-
-/* BODY */
-body{
-  background: var(--light);
-  min-height: 100vh;
-  overflow-y: auto;
-  font-family:'Lexend',sans-serif;
-}
-
-/* BACKGROUND DOTS */
-#bg{position:fixed;inset:0;z-index:0}
-.dot{position:absolute;background:var(--dark);border-radius:50%;opacity:.18;animation:float 22s ease-in-out infinite}
-@keyframes float{0%{transform:translateY(0)}50%{transform:translateY(10px)}100%{transform:translateY(0)}}
-
-/* TOP BAR */
-.topbar{
-  height:64px;
-  background:var(--dark);
-  color:#fff;
-  display:flex;
-  align-items:center;
-  padding:0 18px;
-  font-size:22px;
-  font-weight:700;
-  position:relative;
-  z-index:10;
-}
-
-/* SCREENS */
-.screen{
-  position:absolute;
-  top:64px;
-  left:0;
-  width:100%;
-  height:calc(100vh - 164px);
-  padding:28px;
-  display:none;
-  z-index:5;
-  overflow-y:auto;
-}
-.screen.active{display:block}
-
-/* CARD */
-.card-wrap{max-width:760px;margin:auto}
-.card{background:var(--card);border-radius:30px;padding:44px 36px;box-shadow:0 18px 40px rgba(0,0,0,.15);position:relative;overflow:hidden}
-
-/* BLOBS */
-.blob{position:absolute;background:var(--dark);opacity:.14}
-.blob.tl{width:160px;height:140px;top:-30px;left:-40px;border-radius:70% 30% 60% 40%}
-.blob.tr{width:120px;height:160px;top:-40px;right:-30px;border-radius:40% 60% 30% 70%}
-.blob.bl{width:140px;height:120px;bottom:-30px;left:-30px;border-radius:60% 40% 70% 30%}
-.blob.br{width:180px;height:160px;bottom:-40px;right:-40px;border-radius:30% 70% 40% 60%}
-
-/* BUTTONS */
-button.main{margin-top:22px;padding:16px;width:100%;border:none;border-radius:18px;background:var(--mid);color:#fff;font-size:16px;font-weight:700;cursor:pointer}
-.answers button{width:100%;padding:14px;margin-top:14px;border:none;border-radius:18px;background:var(--mid);color:#fff;font-weight:600;cursor:pointer}
-
-/* BOTTOM BAR */
-.bottom{position:fixed;bottom:0;width:100%;height:110px;z-index:20}
-.bottom-bg{position:absolute;bottom:0;width:100%;height:92px;background:#fff;border-radius:56px 56px 0 0;border:4px solid var(--dark)}
-.carousel{max-width:640px;margin:auto;height:92px;position:relative}
-.carousel button{background:none;border:none;cursor:pointer;position:absolute;bottom:2px}
-.icon{font-size:40px;color:var(--dark)}
-.left{left:14%}
-.center{left:50%;transform:translateX(-50%)}
-.right{right:14%}
-
-/* RESULTS */
-.results-row{display:flex;gap:22px;flex-wrap:wrap;margin-top:18px}
-.result-box{flex:1;min-width:240px;background:#fff;border-radius:26px;padding:30px;box-shadow:0 14px 32px rgba(0,0,0,.15)}
-.result-box h3{margin-bottom:10px}
-
-/* TEXT */
-h1,h2{margin-bottom:14px}
-p{line-height:1.6;margin-bottom:10px}
-
-/* TRANSITIONS */
-.screen,.card,button{transition:.35s ease}
-
-/* PLANNER ITEMS */
-.planner-item{background:#fff;border-radius:26px;padding:18px;margin-top:16px;box-shadow:0 10px 25px rgba(0,0,0,.12);display:flex;gap:12px;align-items:center}
-.planner-item select{padding:10px;border-radius:14px;border:1px solid #ccc;font-size:14px}
-.planner-item input{flex:1;padding:10px;border-radius:14px;border:1px solid #ccc;font-size:14px}
+body{background:#eef7ff;}
+.topbar{background:#123d63;color:#fff;padding:16px;text-align:center;font-weight:700;}
+.screen{display:none;padding:20px;height:calc(100vh - 120px);overflow-y:auto;}
+.active{display:block;}
+.card{background:#fff;padding:20px;border-radius:20px;max-width:700px;margin:auto;box-shadow:0 10px 20px rgba(0,0,0,.1);}
+button{margin-top:10px;padding:14px;width:100%;border:none;border-radius:12px;background:#1f6fb2;color:#fff;}
+.back{background:#ccc;color:#000;}
+img{width:100%;height:180px;object-fit:cover;border-radius:12px;margin-top:10px;}
+.result{background:#f4f9ff;padding:15px;margin-top:10px;border-radius:12px;}
+textarea{width:100%;padding:10px;margin-top:10px;border-radius:10px;border:1px solid #ccc;}
+.diary-entry{background:#f4f9ff;margin-top:10px;padding:10px;border-radius:10px;}
+.diary-entry small{color:#666;font-size:12px;}
+.nav{position:fixed;bottom:0;width:100%;background:#fff;padding:10px;display:flex;justify-content:space-around;}
 </style>
 </head>
 <body>
+<div class="topbar">Simply Daily</div>
 
-<div id="bg"></div>
-
-<div class="topbar">Simplify Daily</div>
-
-<!-- HOME -->
 <div id="home" class="screen active">
-<div class="card-wrap">
 <div class="card">
-<div class="blob tl"></div><div class="blob tr"></div><div class="blob bl"></div><div class="blob br"></div>
-<h1>Welcome to Simplify Daily</h1>
-<p>This is your calm space to check in with yourself.</p>
-<p>Answer a short mental health check-in and receive tailored support based on how you’re feeling today.</p>
-<p>Nothing here is judged. Everything here is private.</p>
-<button class="main" onclick="startQuestions()">Go to Questionnaire</button>
-</div>
+<h2>Welcome</h2>
+<p>Your wellbeing and body confidence space</p>
+<button onclick="start()">Start Check-In</button>
+<button onclick="nav('diary')">📔 Diary</button>
+<button onclick="nav('progress')">📊 Progress</button>
+<button onclick="nav('support')">🆘 Support</button>
+<button onclick="crisis()">🚨 I Need Help Now</button>
 </div>
 </div>
 
-<!-- QUESTIONS -->
 <div id="questions" class="screen">
-<div class="card-wrap">
 <div class="card">
-<div class="blob tl"></div><div class="blob tr"></div><div class="blob bl"></div><div class="blob br"></div>
-<h2 id="qText"></h2>
-<div class="answers" id="answers"></div>
-</div>
+<button class="back" onclick="goBack()">⬅ Back</button>
+<h3 id="qText"></h3>
+<img id="qImg">
+<div id="answers"></div>
 </div>
 </div>
 
-<!-- LOADING -->
-<div id="loading" class="screen">
-<div class="card-wrap">
-<div class="card">
-<div class="blob tl"></div><div class="blob tr"></div><div class="blob bl"></div><div class="blob br"></div>
-<h2>Generating your support…</h2>
-<p>Please take a moment.</p>
-</div>
-</div>
-</div>
-
-<!-- RESULTS -->
 <div id="results" class="screen">
-<div class="card-wrap">
 <div class="card">
-<div class="blob tl"></div><div class="blob tr"></div><div class="blob bl"></div><div class="blob br"></div>
-<h2>Support For You</h2>
-<div class="results-row" id="resultsBox"></div>
-</div>
+<button class="back" onclick="nav('home')">⬅ Home</button>
+<h2>Your Personalised Plan</h2>
+<div id="resultsBox"></div>
 </div>
 </div>
 
-<!-- PLANNER -->
-<div id="planner" class="screen">
-<div class="card-wrap">
+<div id="diary" class="screen">
 <div class="card">
-<div class="blob tl"></div><div class="blob tr"></div><div class="blob bl"></div><div class="blob br"></div>
-<h2>Daily Planner</h2>
-<div id="plannerList"></div>
-<button class="main" onclick="addPlannerItem()">Add Task</button>
-</div>
+<button class="back" onclick="nav('home')">⬅ Home</button>
+<h2>Your Diary</h2>
+<textarea id="diaryText"></textarea>
+<button onclick="saveDiary()">Add Entry</button>
+<div id="diaryList"></div>
 </div>
 </div>
 
-<!-- BOTTOM BAR -->
-<div class="bottom">
-<div class="bottom-bg"></div>
-<div class="carousel">
-<button class="left" onclick="nav('planner')"><div class="icon">📅</div></button>
-<button class="center" onclick="nav('home')"><div class="icon">🏠</div></button>
-<button class="right" onclick="nav('questions')"><div class="icon">❓</div></button>
+<div id="progress" class="screen">
+<div class="card">
+<button class="back" onclick="nav('home')">⬅ Home</button>
+<h2>Your Mood Progress</h2>
+<canvas id="moodChart"></canvas>
 </div>
+</div>
+
+<div id="support" class="screen">
+<div class="card">
+<button class="back" onclick="nav('home')">⬅ Home</button>
+<h2>Support</h2>
+<div class="result"><a href="https://www.nhs.uk/mental-health/" target="_blank">NHS Mental Health</a></div>
+<div class="result"><a href="https://www.mind.org.uk" target="_blank">Mind UK</a></div>
+<div class="result"><a href="https://www.beateatingdisorders.org.uk" target="_blank">Beat Eating Disorders</a></div>
+<div class="result"><a href="https://www.youngminds.org.uk" target="_blank">Young Minds</a></div>
+<div class="result">Samaritans: 116 123</div>
+</div>
+</div>
+
+<div class="nav">
+<button onclick="nav('home')">🏠</button>
+<button onclick="nav('diary')">📔</button>
+<button onclick="nav('progress')">📊</button>
+<button onclick="nav('support')">🆘</button>
 </div>
 
 <script>
-/* BACKGROUND DOTS */
-const bg=document.getElementById('bg');
-for(let i=0;i<520;i++){
- const d=document.createElement('div');
- d.className='dot';
- const s=Math.random()*10+3;
- d.style.width=d.style.height=s+'px';
- d.style.top=Math.random()*98+'%';
- d.style.left=Math.random()*98+'%';
- d.style.animationDuration=18+Math.random()*20+'s';
- bg.appendChild(d);
-}
+let qi=0, score=0, lowCount=0;
+let userData={};
 
-/* NAVIGATION */
-function nav(id){
- document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
- document.getElementById(id).classList.add('active');
-}
-
-/* ORIGINAL QUESTIONS DATA (UNCHANGED) */
 const questions=[
-{q:"How is your mood right now?",a:[["Very positive",2],["Neutral",1],["Low",0]]},
-{q:"How anxious do you feel?",a:[["Not anxious",2],["Somewhat anxious",1],["Very anxious",0]]},
-{q:"How stressed do you feel?",a:[["Calm",2],["Under pressure",1],["Overwhelmed",0]]},
-{q:"How rested do you feel?",a:[["Well rested",2],["Somewhat tired",1],["Exhausted",0]]},
-{q:"How motivated are you today?",a:[["Motivated",2],["Low motivation",1],["No motivation",0]]},
-{q:"How focused have you been?",a:[["Focused",2],["Distracted",1],["Unable to focus",0]]},
-{q:"How connected do you feel?",a:[["Connected",2],["Somewhat isolated",1],["Very isolated",0]]},
-{q:"How tense does your body feel?",a:[["Relaxed",2],["Tense",1],["Very tense",0]]},
-{q:"How hopeful do you feel?",a:[["Hopeful",2],["Unsure",1],["Hopeless",0]]},
-{q:"How emotionally drained are you?",a:[["Not drained",2],["Tired",1],["Burnt out",0]]},
-{q:"How confident do you feel?",a:[["Confident",2],["Unsure",1],["Insecure",0]]},
-{q:"How lonely do you feel?",a:[["Not lonely",2],["Occasionally",1],["Very lonely",0]]},
-{q:"How irritable do you feel?",a:[["Calm",2],["Easily annoyed",1],["Very irritable",0]]},
-{q:"How balanced do you feel emotionally?",a:[["Balanced",2],["Unsteady",1],["Out of control",0]]},
-{q:"How satisfied are you with today?",a:[["Satisfied",2],["Neutral",1],["Dissatisfied",0]]},
-{q:"How safe do you feel emotionally?",a:[["Safe",2],["Uncertain",1],["Unsafe",0]]},
-{q:"How supported do you feel?",a:[["Supported",2],["Somewhat",1],["Unsupported",0]]},
-{q:"How mentally tired are you?",a:[["Alert",2],["Tired",1],["Burnt out",0]]},
-{q:"How positive were your thoughts?",a:[["Mostly positive",2],["Mixed",1],["Negative",0]]},
-{q:"How calm do you feel inside?",a:[["Calm",2],["Restless",1],["On edge",0]]},
-{q:"How in control do you feel?",a:[["In control",2],["Some control",1],["No control",0]]},
-{q:"How often did worries interrupt you?",a:[["Rarely",2],["Sometimes",1],["Constantly",0]]},
-{q:"How resilient do you feel?",a:[["Resilient",2],["Struggling",1],["Broken",0]]},
-{q:"How comfortable are you with yourself?",a:[["Comfortable",2],["Unsure",1],["Uncomfortable",0]]},
-{q:"How emotionally stable do you feel?",a:[["Stable",2],["Up and down",1],["Unstable",0]]}
+{q:"What is your age?",type:"input",field:"age"},
+{q:"Gender?",type:"select",field:"gender",a:["Male","Female","Other"]},
+{q:"Do you have SEN needs?",type:"select",field:"sen",a:["No","Yes"]},
+{q:"Do you have children?",type:"select",field:"children",a:["No","Yes"]},
+
+{q:"How do you feel about your body today?",img:"https://images.unsplash.com/photo-1494790108377-be9c29b29330",a:[["Confident",2],["Unsure",1],["Negative",0]]},
+{q:"Do you compare yourself to others?",img:"https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e",a:[["Rarely",2],["Sometimes",1],["Often",0]]},
+{q:"How kind are your thoughts?",img:"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",a:[["Kind",2],["Mixed",1],["Critical",0]]},
+{q:"How often do you feel anxious?",img:"https://images.unsplash.com/photo-1512436991641-6745cdb1723f",a:[["Rarely",2],["Sometimes",1],["Often",0]]},
+{q:"How is your sleep?",img:"https://images.unsplash.com/photo-1505693314120-0d443867891c",a:[["Good",2],["Okay",1],["Poor",0]]},
+{q:"Do you avoid mirrors or photos?",img:"https://images.unsplash.com/photo-1515378791036-0648a3ef77b2",a:[["No",2],["Sometimes",1],["Often",0]]}
 ];
 
-let qi=0,score=0;
-let profileData={};
+function nav(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function start(){qi=0;score=0;lowCount=0;userData={};nav('questions');render();}
 
-/* QUESTION FLOW */
-function startQuestions(){
- qi=0;
- score=0;
-nav('questions');
- renderQ();
-}
-
-function renderQ(){
- const qText=document.getElementById('qText');
- const answers=document.getElementById('answers');
+function render(){
+ let q=questions[qi];
+ qText.innerText=q.q;
  answers.innerHTML='';
+ qImg.style.display=q.img?"block":"none";
+ if(q.img) qImg.src=q.img;
 
- if(qi===0){
-   // FIRST STEP: collect age, gender, disability
-   qText.innerText="Please provide your basic info:";
-   answers.innerHTML=`
-   <input id="ageInput" type="number" placeholder="Age" style="margin-bottom:10px;">
-   <select id="genderInput" style="margin-bottom:10px;">
-     <option value="" disabled selected>Gender</option>
-     <option value="Male">Male</option>
-     <option value="Female">Female</option>
-     <option value="Other">Other</option>
-   </select>
-   <select id="disabilityInput" style="margin-bottom:10px;">
-     <option value="" disabled selected>Disability (if any)</option>
-     <option value="None">None</option>
-     <option value="Physical">Physical</option>
-     <option value="Mental">Mental</option>
-     <option value="Other">Other</option>
-   </select>
-   <button onclick="saveProfileAndNext()">Next</button>
-   `;
-   return;
+ if(q.type==="input"){
+  let i=document.createElement("input");i.type="number";
+  let b=document.createElement("button");b.innerText="Next";
+  b.onclick=()=>{userData[q.field]=i.value;qi++;render();};
+  answers.appendChild(i);answers.appendChild(b);
  }
-
- // ORIGINAL QUESTION FLOW
- const currentQ=questions[qi-1];
- qText.innerText=currentQ.q;
- answers.innerHTML='';
- currentQ.a.forEach(o=>{
-   const b=document.createElement('button');
+ else if(q.type==="select"){
+  q.a.forEach(o=>{let b=document.createElement("button");b.innerText=o;b.onclick=()=>{userData[q.field]=o;qi++;render();};answers.appendChild(b);});
+ }
+ else{
+  q.a.forEach(o=>{
+   let b=document.createElement("button");
    b.innerText=o[0];
    b.onclick=()=>{
-     score+=o[1];
-     qi++;
-     if(qi>questions.length){
-       nav('loading');
-       setTimeout(showResults,1600);
-       return;
-     }
-     renderQ();
+    score+=o[1];
+    if(o[1]===0) lowCount++;
+
+    if(lowCount>=3){earlySupport();return;}
+
+    qi++;
+    qi>=questions.length?showResults():render();
    };
    answers.appendChild(b);
- });
+  });
+ }
 }
 
-function saveProfileAndNext(){
- profileData.age=document.getElementById('ageInput').value;
- profileData.gender=document.getElementById('genderInput').value;
- profileData.disability=document.getElementById('disabilityInput').value;
- qi++;
- renderQ();
+function earlySupport(){
+ nav('results');
+ resultsBox.innerHTML=`
+ <div class="result"><b>Let's pause here 💙</b><br>You’ve indicated you're having a tough time. That’s okay.</div>
+ <div class="result">
+ <b>Gentle Weekly Plan:</b><br>
+ Mon: Rest + breathing<br>
+ Tue: Talk to someone<br>
+ Wed: Fresh air walk<br>
+ Thu: Comfort activity<br>
+ Fri: Small win<br>
+ Sat: Light movement<br>
+ Sun: Reset
+ </div>`;
 }
 
-/* RESULTS */
 function showResults(){
  nav('results');
- const resultsBox=document.getElementById('resultsBox');
- resultsBox.innerHTML='';
- let supports=[];
- if(score>=40){
-   supports=[
-    ["Maintain routines","Keep consistent sleep, meals, and movement."],
-    ["Mindfulness","Continue grounding practices daily."],
-    ["Positive reflection","Journal what’s going well."]
-   ];
- }else if(score>=25){
-   supports=[
-    ["Take breaks","Short pauses reduce stress buildup."],
-    ["Talk it out","Share feelings with someone trusted."],
-    ["Gentle movement","Stretching or walks can help."]
-   ];
- }else{
-   supports=[
-    ["Extra care","Prioritise rest and self-kindness."],
-    ["Lower demands","Reduce pressure where possible."],
-    ["Seek support","Professional help can make a difference."]
-   ];
- }
- supports.forEach(s=>{
-   const d=document.createElement('div');
-   d.className='result-box';
-   d.innerHTML=`<h3>${s[0]}</h3><p>${s[1]}</p>`;
-   resultsBox.appendChild(d);
- });
+ let isParent=userData.children==="Yes";
+ let hasSEN=userData.sen==="Yes";
 
- // SEND DATA TO GOOGLE SHEETS
- fetch("https://script.google.com/macros/s/AKfycbxKV2vdzvEhzl6RrXJB4uQ8yWX8lFhH6k1Q_jDVkl0ArhzhSPlPJT48oVm2aRVjNNCHSg/exec",{
-   method:"POST",
-   mode:"no-cors",
-   headers:{"Content-Type":"application/json"},
-   body:JSON.stringify({...profileData,score})
- });
+ let plan=`<div class="result"><b>Your Personalised Week</b><br>
+ Mon: Movement + goals<br>
+ Tue: Social connection<br>
+ Wed: Rest + journal<br>
+ Thu: Creativity<br>
+ Fri: Celebrate wins<br>
+ Sat: Outdoor activity<br>
+ Sun: Reset
+ </div>`;
+
+ plan+=`<div class="result"><b>Advice:</b><br>
+ • Be kind to yourself<br>
+ • Limit comparison
+ • Prioritise sleep
+ </div>`;
+
+ if(isParent){plan+=`<div class="result"><b>Parent Ideas:</b><br>Walks, games, shared calm time</div>`;}
+ if(hasSEN){plan+=`<div class="result"><b>SEN Support:</b><br>Routine, sensory calm activities</div>`;}
+
+ resultsBox.innerHTML=plan;
 }
 
-/* PLANNER */
-function addPlannerItem(){
- const plannerList=document.getElementById('plannerList');
- const item=document.createElement('div');
- item.className='planner-item';
- item.innerHTML=`
- <select>
-  <option value="00:00">00:00</option><option value="01:00">01:00</option>
-  <option value="02:00">02:00</option><option value="03:00">03:00</option>
-  <option value="04:00">04:00</option><option value="05:00">05:00</option>
- <option value="06:00">06:00</option><option value="07:00">07:00</option>
- <option value="08:00">08:00</option><option value="09:00">09:00</option>
- <option value="10:00">10:00</option><option value="11:00">11:00</option>
- <option value="12:00">12:00</option><option value="13:00">13:00</option>
- <option value="14:00">14:00</option><option value="15:00">15:00</option>
- <option value="16:00">16:00</option><option value="17:00">17:00</option>
- <option value="18:00">18:00</option><option value="19:00">19:00</option>
-  <option value="20:00">20:00</option><option value="21:00">21:00</option>
-   <option value="22:00">22:00</option><option value="23:00">23:00</option>
- </select>
- <input placeholder="Plan for this time">
- `;
- plannerList.appendChild(item);
+function saveDiary(){
+ let t=document.getElementById('diaryText').value;
+ if(!t.trim())return;
+ let e=JSON.parse(localStorage.getItem('entries')||"[]");
+ e.push({text:t,date:new Date().toLocaleString()});
+ localStorage.setItem('entries',JSON.stringify(e));
+ document.getElementById('diaryText').value="";
+ loadDiary();
 }
+
+function loadDiary(){
+ let e=JSON.parse(localStorage.getItem('entries')||"[]");
+ let l=document.getElementById('diaryList');l.innerHTML="";
+ e.slice().reverse().forEach(x=>{l.innerHTML+=`<div class="diary-entry"><small>${x.date}</small><br>${x.text}</div>`;});
+}
+
+function renderChart(){
+ let data=JSON.parse(localStorage.getItem('scores')||"[]");
+ new Chart(document.getElementById('moodChart'),{type:'line',data:{labels:data.map((_,i)=>i+1),datasets:[{data:data}]}});
+}
+
+function crisis(){alert("If you are in danger call 999.\nSamaritans: 116 123\nText SHOUT to 85258");}
+
+window.onload=()=>{loadDiary();renderChart();}
+function goBack(){if(qi>0){qi--;render();}}
 </script>
-
 </body>
 </html>
