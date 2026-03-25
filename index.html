@@ -31,7 +31,7 @@ textarea{width:100%;padding:10px;margin-top:10px;border-radius:10px;border:1px s
 <h2>Welcome</h2>
 <p>Your wellbeing and body confidence space</p>
 <button onclick="start()">Start Check-In</button>
-<button onclick="nav('diary')">📔 Diary</button>
+<button onclick="nav('daily planner')">📔 Daily Planner</button>
 <button onclick="nav('progress')">📊 Progress</button>
 <button onclick="nav('support')">🆘 Support</button>
 <button onclick="crisis()">🚨 I Need Help Now</button>
@@ -55,13 +55,13 @@ textarea{width:100%;padding:10px;margin-top:10px;border-radius:10px;border:1px s
 </div>
 </div>
 
-<div id="diary" class="screen">
+<div id="planner" class="screen">
 <div class="card">
 <button class="back" onclick="nav('home')">⬅ Home</button>
-<h2>Your Diary</h2>
-<textarea id="diaryText"></textarea>
+<h2>Your Daily Planner</h2>
+<textarea id="plannerText"></textarea>
 <button onclick="saveDiary()">Add Entry</button>
-<div id="diaryList"></div>
+<div id="plannerList"></div>
 </div>
 </div>
 
