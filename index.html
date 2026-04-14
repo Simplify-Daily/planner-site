@@ -165,6 +165,7 @@ function earlySupport(){
 }
 
 function showResults(){
+saveToSheet();
  nav('results');
  let isParent=userData.children==="Yes";
  let hasSEN=userData.sen==="Yes";
@@ -216,6 +217,13 @@ function crisis(){alert("If you are in danger call 999.\nSamaritans: 116 123\nTe
 
 window.onload=()=>{loadDiary();renderChart();}
 function goBack(){if(qi>0){qi--;render();}}
+function saveToSheet() {
+  fetch("https://script.google.com/macros/s/AKfycbwnWSFp83IfIlTX5_H2MsxNOToBNgl48gTm0SF81m2CmDnbGQsWOIQcqMHDWp1E3JGc/exec", {
+    method: "POST",
+    body: JSON.stringify(userData)
+  });
+}
+
 </script>
 </body>
 </html>
